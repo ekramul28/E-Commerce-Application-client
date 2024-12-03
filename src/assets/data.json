@@ -1,0 +1,186 @@
+[
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445687/evion-400mg-strip-of-20-capsule-2-1723105891_txtnry.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445688/evion-400mg-strip-of-20-capsule-7-1723105919_dki6ei.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445688/multimineral-immunity-booster-complete-nutrition-bottle-of-60-6.3-1698386177_rd5a6l.jpg"
+    ],
+    "title": "Evion-400mg-strip-of-20-capsule-2-1723105891_txtnry",
+    "brand": "MediCare Pharma",
+    "availableQuantity": 150,
+    "price": 120,
+    "rating": 4.5,
+    "description": "Effective for treating pain and fever, including headaches, muscle aches, and more.",
+    "discount": 10,
+    "offer": true,
+    "offerDiscount": 20,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445691/n-tablet-with-essential-zinc-vitamins-for-daily-immunity-energy-2-16771557132_ve83vp.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445689/tablet-with-essential-zinc-vitamins-for-daily-immunity-energy-6.2-1677155719_eebsjy.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445690/-maintains-healthy-sugar-levels-helps-in-weight-management-1l-6.2-1695974041_dvp04a.jpg"
+    ],
+    "title": "tablet-with-essential-zinc-vitamins-for-daily-immunity-energy-6",
+    "brand": "HealWell Pharma",
+    "availableQuantity": 200,
+    "price": 140,
+    "rating": 4.7,
+    "description": "Used to reduce fever and treat pain or inflammation caused by conditions such as headache or arthritis.",
+    "discount": 15,
+    "offer": true,
+    "offerDiscount": 25,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445693/-maintains-healthy-sugar-levels-helps-in-weight-management-1l-6.7-1695974060_jo3a0k.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445691/-maintains-healthy-sugar-levels-helps-in-weight-management-1l-6.4-1695974083_leeb7t.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445690/-maintains-healthy-sugar-levels-helps-in-weight-management-1l-6.1-1695974059_dy0ayn.jpg"
+    ],
+    "title": "maintains-healthy-sugar-levels-helps-in-weight-management",
+    "brand": "PharmaTrust",
+    "availableQuantity": 120,
+    "price": 250,
+    "rating": 4.8,
+    "description": "An antibiotic used to treat a variety of bacterial infections.",
+    "discount": 20,
+    "offer": false,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445692/-maintains-healthy-sugar-levels-helps-in-weight-management-1l-6.6-1695974019_zodoev.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445692/00mg-vigour-improvement-strength-stamina-for-men-bottle-of-60-6.1-1689585761_tygi58.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445693/multimineral-immunity-booster-complete-nutrition-bottle-of-60-6.1-1698386148_sxl5un.jpg"
+    ],
+    "title": "Maintains-healthy-sugar-levels-helps-in-weight-management",
+    "brand": "HealthFirst",
+    "availableQuantity": 100,
+    "price": 300,
+    "rating": 4.6,
+    "description": "Used to treat gastroesophageal reflux disease (GERD) and other conditions caused by excess stomach acid.",
+    "discount": 5,
+    "offer": false,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445694/neurobion-forte-tablet-30s-1.1-1669655051_crbxrm.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445694/neurobion-forte-tablet-30s-3-1669655041_el2yzr.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445694/neurobion-forte-tablet-30s-4.1-1669655045_o16qzq.jpg"
+    ],
+    "title": "Neurobion-forte-tablet-30s",
+    "brand": "DiabeCare",
+    "availableQuantity": 180,
+    "price": 180,
+    "rating": 4.4,
+    "description": "Used to control high blood sugar in people with type 2 diabetes.",
+    "discount": 0,
+    "offer": false,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445704/maxirich-daily-multivitamin-strip-of-10-softgel-capsules-6.1-1723182043_qyxu5d.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445707/maxirich-daily-multivitamin-strip-of-10-softgel-capsules-6.2-1723182084_mrpzwc.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445709/maxirich-daily-multivitamin-strip-of-10-softgel-capsules-6.1-17231820432_jujdtj.jpg"
+    ],
+    "title": "Maxirich-daily-multivitamin-strip-of-10-softgel-capsules",
+    "brand": "AllerFree",
+    "availableQuantity": 130,
+    "price": 110,
+    "rating": 4.3,
+    "description": "An antihistamine that reduces the effects of natural histamine in the body, used for treating allergy symptoms.",
+    "discount": 10,
+    "offer": true,
+    "offerDiscount": 15,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445709/shelcal-500mg-bottle-of-40-tablets-2-1692174719_cqgnou.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445711/shelcal-500mg-bottle-of-40-tablets-6.4-1692174738_whmoih.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445711/shelcal-500mg-bottle-of-40-tablets-6.2-1692174738_bsjoh3.jpg"
+    ],
+    "title": "Shelcal-500mg-bottle-of-40-tablets-2-1692174719_cqgnou",
+    "brand": "HeartCare",
+    "availableQuantity": 90,
+    "price": 250,
+    "rating": 4.7,
+    "description": "Used to lower cholesterol and triglyceride levels in the blood.",
+    "discount": 5,
+    "offer": true,
+    "offerDiscount": 10,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445712/zincovit-strip-of-15-tablets-green-2.1-1702990454_sw8ccy.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445712/zincovit-strip-of-15-tablets-green-3-1702990452_qe35tn.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445713/zincovit-strip-of-15-tablets-green-7.1-1702990446_ynudqg.jpg"
+    ],
+    "title": "Zincovit-strip-of-15-tablets-green-2",
+    "brand": "CardioWell",
+    "availableQuantity": 85,
+    "price": 220,
+    "rating": 4.5,
+    "description": "Used to treat high blood pressure and heart failure.",
+    "discount": 10,
+    "offer": false,
+    "isDeleted": false
+  },
+
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445722/shelcal-500mg-strip-of-15-tablets-6.8-16799993693_dqlsyd.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445722/shelcal-500mg-strip-of-15-tablets-6.7-1679999366_za8cgv.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445721/shelcal-500mg-strip-of-15-tablets-6.7-16799993662_w8ssgm.jpg"
+    ],
+    "title": "Shelcal-500mg-strip-of-15-tablets-6.8-16799993693_dqlsyd",
+    "brand": "BloodPressureCare",
+    "availableQuantity": 95,
+    "price": 200,
+    "rating": 4.6,
+    "description": "Used to treat high blood pressure and angina.",
+    "discount": 10,
+    "offer": true,
+    "offerDiscount": 15,
+    "isDeleted": true
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445726/unienzyme-strip-of-15-tablets-2-1719965994_pwdba3.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445727/unienzyme-strip-of-15-tablets-6.5-1719966006_cfnapw.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445727/unienzyme-strip-of-15-tablets-6.5-1719966006_cfnapw.jpg"
+    ],
+    "title": "Unienzyme-strip-of-15-tablets-2-1719965994_pwdba3",
+    "brand": "PainRelief",
+    "availableQuantity": 140,
+    "price": 90,
+    "rating": 4.2,
+    "description": "Used to reduce pain, fever, or inflammation, and to prevent heart attacks.",
+    "discount": 10,
+    "offer": true,
+    "offerDiscount": 20,
+    "isDeleted": false
+  },
+  {
+    "image": [
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445736/pharcal-strip-of-15-tablets-1-1651243085_mxnu08.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445736/nodosis-500mg-strip-of-15-tablets-2-16415338492_zumefn.jpg",
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723445735/cynical-d-strip-of-10-tablets-1-16503531582_ot36pw.jpg"
+    ],
+    "title": "Harcal-strip-of-15-tablets-1-1651243085_mxnu08",
+    "brand": "CardioSecure",
+    "availableQuantity": 110,
+    "price": 240,
+    "rating": 4.7,
+    "description": "Used to prevent heart attacks and strokes in persons with heart disease.",
+    "discount": 10,
+    "offer": true,
+    "offerDiscount": 15,
+    "isDeleted": false
+  }
+]
