@@ -4,6 +4,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Profile from "../Profile/Profile";
 import { usePathname } from "next/navigation";
+import { SidebarOptions } from "./SidebarOptions";
+import { adminLinks, userLinks } from "./constants";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +13,9 @@ const SideBar = () => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
+  const user = {
+    role: "USER",
+  };
   return (
     <div>
       <div className="sm:hidden   ">
@@ -49,7 +53,7 @@ const SideBar = () => {
       <div
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed inset-y-0 left-0 z-40 w-64 transform bg-white transition-transform duration-300 ease-in-out sm:static sm:translate-x-0 sm:flex sm:h-screen sm:flex-col sm:justify-between border-e`}
+        } fixed inset-y-0 left-0 z-40 w-64 transform bg-slate-50 transition-transform duration-300 ease-in-out sm:static sm:translate-x-0 sm:flex sm:h-screen sm:flex-col sm:justify-between border-e`}
       >
         <div className="px-4 py-6">
           <span className="grid h-10 w-32 place-content-center rounded-lg  text-xs text-gray-600">
@@ -68,6 +72,11 @@ const SideBar = () => {
 
           <ul className="mt-6 space-y-1">
             <li>
+              <SidebarOptions
+                links={user?.role === "USER" ? userLinks : adminLinks}
+              />
+            </li>
+            {/* <li>
               <Link
                 href="/user"
                 className={` ${
@@ -166,7 +175,7 @@ const SideBar = () => {
               >
                 Dashboard
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 
