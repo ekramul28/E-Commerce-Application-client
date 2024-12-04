@@ -38,14 +38,24 @@ const ProfileDropdown = ({
           <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
             Profile
           </button>
-          {role === "admin" ? (
-            <Link href={"/dashboard"}>
+          {role === "ADMIN" ? (
+            <Link href={"/admin"}>
+              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                Dashboard
+              </button>
+            </Link>
+          ) : role === "VENDOR" ? (
+            <Link href={"/vendor"}>
               <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Dashboard
               </button>
             </Link>
           ) : (
-            ""
+            <Link href={"/customer"}>
+              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                Dashboard
+              </button>
+            </Link>
           )}
           <button
             onClick={handelLogout}
