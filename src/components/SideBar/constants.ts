@@ -5,3 +5,4 @@ export const userLinks = [
 ];
 
 export const adminLinks = [{ href: "/admin", label: "Admin" }];
+export const vendorLinks = [{ href: "/vendor", label: "Vendor" }];
