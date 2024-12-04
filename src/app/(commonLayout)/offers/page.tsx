@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useProductQuery } from "../redux/features/products/productApi";
+import { useProductQuery } from "../../redux/features/products/productApi";
 import { TMeta, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import CustomPagination from "@/components/Pagination/Pagination";

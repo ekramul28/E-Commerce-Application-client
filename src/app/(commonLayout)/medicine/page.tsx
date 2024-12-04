@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { TMeta, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import CustomPagination from "@/components/Pagination/Pagination";
-import { useProductQuery } from "../redux/features/products/productApi";
 import Container from "@/components/Container/Container";
 import MedicineCard from "./_components/MedicineCard";
+import { useProductQuery } from "@/app/redux/features/products/productApi";
 
 const Medicine = () => {
   const [currentPage, setCurrentPage] = useState(1);

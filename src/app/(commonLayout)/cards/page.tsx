@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 import {
   useCartProductQuery,
   useDeleteProductCartMutation,
-} from "../redux/features/cart/cartApi";
+} from "../../redux/features/cart/cartApi";
 import Image from "next/image";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
 import { TCart, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import { toast } from "react-toastify";
