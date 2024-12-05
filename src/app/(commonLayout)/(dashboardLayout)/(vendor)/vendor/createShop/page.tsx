@@ -1,19 +1,44 @@
 "use client";
 
+import { useCreateShopMutation } from "@/redux/fetures/Shop/shopApi";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const CreateShop = () => {
   // Form state management
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [createShop] = useCreateShopMutation();
+  const user = useAppSelector((state: RootState) => state.auth.user);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted");
-    console.log("Title:", title);
-    console.log("Description:", description);
-    console.log("Image:", image);
+    const formData = new FormData();
+    const data = {
+      title,
+      description,
+      venderId: user?.userId,
+    };
+    formData.append("data", JSON.stringify(data));
+
+    if (image) {
+      formData.append("file", image);
+    }
+
+    try {
+      const shop = await createShop(formData).unwrap();
+      if (shop.success) {
+        toast.success("Shop created successfully!");
+        setTitle("");
+        setDescription("");
+        setImage(null);
+      }
+    } catch (error) {
+      console.error("Error creating shop:", error);
+    }
   };
 
   return (
@@ -26,7 +51,7 @@ const CreateShop = () => {
         {/* Title */}
         <div>
           <label
-            htmlFor="title"
+            htmlFor="Name"
             className="block text-sm font-medium text-gray-700"
           >
             Title

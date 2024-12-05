@@ -3,11 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { verifyToken } from "../../api/imageUp/verifyToken";
-import { useAppDispatch } from "../redux/hooks";
-// import { useLoginUserMutation } from "../redux/features/Auth/authApi";
-import { setUser, TUser } from "../redux/features/Auth/authSlice";
 import { useLoginUserMutation } from "@/redux/fetures/Auth/authApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { verifyToken } from "@/api/imageUp/verifyToken";
+import { setUser, TUser } from "@/redux/fetures/Auth/authSlice";
 
 const LoginPage = () => {
   const [loginUser] = useLoginUserMutation();

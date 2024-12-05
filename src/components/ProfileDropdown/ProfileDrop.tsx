@@ -16,7 +16,7 @@ const ProfileDropdown = ({
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(role);
   return (
     <div className="relative">
       <button
