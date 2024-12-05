@@ -24,7 +24,10 @@ const ProfileDropdown = ({
         className="w-9 h-9 md:w-14 md:h-14 rounded-full overflow-hidden focus:outline-none"
       >
         <Image
-          src={image}
+          src={
+            image ||
+            "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+          }
           alt="Profile Image"
           layout="responsive"
           width={40}

@@ -22,7 +22,7 @@ const NavLinkBar = () => {
         ref={navRef}
         className="flex md:justify-center items-center gap-4 border-t-2 font-medium text-base py-3 overflow-x-auto scrollbar-hide whitespace-nowrap"
       >
-        {pages.map((page) => (
+        {pages?.map((page) => (
           <Link href={page.route} key={page.route}>
             <div
               className={`text-center px-4 ${

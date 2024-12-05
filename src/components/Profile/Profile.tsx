@@ -14,7 +14,7 @@ const Profile = () => {
           <button className="w-9 h-9 md:w-14 md:h-14 object-cover rounded-full overflow-hidden focus:outline-none">
             {user?.imageUrl && (
               <Image
-                src={user.imageUrl}
+                src={user?.imageUrl}
                 alt="Profile Image"
                 layout="responsive"
                 width={40}
