@@ -5,40 +5,34 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const CategoryForm = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const [image, setImage] = useState<File | null>(null);
   const [name, setName] = useState("");
-  const [createCategory] = useCreateCategoryMutation();
-
-  const [offerDiscount, setOfferDiscount] = useState<
-    number | string | undefined
-  >();
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const imageFiles = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setImages(imageFiles);
-    }
-  };
+  const [createCategory, { isLoading }] = useCreateCategoryMutation();
+  console.log("image", image);
+  const [offer, setOfferDiscount] = useState<number | string | undefined>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const oneImage = images[0];
     const upperName = name.toUpperCase();
     const formData = new FormData();
     const submitData = {
       name: upperName,
-      offerDiscount,
+      offer,
     };
 
     formData.append("data", JSON.stringify(submitData));
-    formData.append("file", oneImage);
+    if (image) {
+      formData.append("file", image);
+    }
+
     for (const [key, value] of formData.entries()) {
       console.log("from", key, value);
     }
     const result = await createCategory(formData).unwrap();
     if (result.success) {
+      setName("");
+      setImage(null);
+      setOfferDiscount("");
       toast.success("Category created successfully");
     }
   };
@@ -77,7 +71,7 @@ const CategoryForm = () => {
         <input
           type="number"
           id="offerDiscount"
-          value={offerDiscount}
+          value={offer}
           onChange={(e) => setOfferDiscount(e.target.value)}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         />
@@ -95,21 +89,9 @@ const CategoryForm = () => {
           type="file"
           id="images"
           multiple
-          onChange={handleImageChange}
+          onChange={(e) => setImage(e.target.files?.[0] || null)}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         />
-        <div className="mt-2 grid grid-cols-3 gap-2">
-          {images.map((image, index) => (
-            <Image
-              key={index}
-              src={image}
-              height={40}
-              width={40}
-              alt={`Product Image ${index + 1}`}
-              className="w-full h-auto rounded-md"
-            />
-          ))}
-        </div>
       </div>
 
       {/* Submit Button */}
@@ -118,7 +100,7 @@ const CategoryForm = () => {
           type="submit"
           className="w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
-          Submit
+          {isLoading ? "Loading...." : "Submit"}
         </button>
       </div>
     </form>

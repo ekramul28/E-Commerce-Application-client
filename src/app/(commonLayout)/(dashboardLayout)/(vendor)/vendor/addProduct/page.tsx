@@ -1,22 +1,41 @@
 "use client";
+import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
+import { useCreateProductMutation } from "@/redux/fetures/Product/productApi";
+import { useGetShopByVendorQuery } from "@/redux/fetures/Shop/shopApi";
+import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import Image from "next/image";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const ProductForm = () => {
   const [images, setImages] = useState<string[]>([]);
-  const [title, setTitle] = useState("");
-  const [brand, setBrand] = useState("");
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+
+  const [name, setName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [availableQuantity, setAvailableQuantity] = useState<number | string>(
     ""
   );
   const [price, setPrice] = useState<number | string>("");
-  const [rating, setRating] = useState<number | string>("");
   const [description, setDescription] = useState("");
   const [discount, setDiscount] = useState<number | string | undefined>();
   const [offerDiscount, setOfferDiscount] = useState<
     number | string | undefined
   >();
 
+  // createProduct
+
+  const [createProduct] = useCreateProductMutation();
+
+  const { data: ProfileData } = useGetMyProfileQuery(undefined);
+  const vendorId = ProfileData?.data?.id;
+  // fetch CategoryData
+  const { data } = useGetCategoryQuery(undefined);
+  // shopId
+  const { data: shopData } = useGetShopByVendorQuery(vendorId);
+  console.log(shopData?.data?.id);
+
+  // show image function
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const imageFiles = Array.from(e.target.files).map((file) =>
@@ -24,22 +43,50 @@ const ProductForm = () => {
       );
       setImages(imageFiles);
     }
+
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      setImageFiles(files);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    const formData = new FormData();
     e.preventDefault();
-    const formData = {
-      images,
-      title,
-      brand,
-      availableQuantity,
+    const Data = {
+      name,
+      categoryId: selectedCategory,
+      shopId: shopData.data.id,
+      Quantity: availableQuantity,
       price,
-      rating,
       description,
       discount,
       offerDiscount,
     };
-    console.log("Form data submitted:", formData);
+
+    console.log("category", selectedCategory);
+
+    formData.append("data", JSON.stringify(Data));
+
+    imageFiles.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const result = await createProduct(formData).unwrap();
+
+    if (result.success) {
+      toast.success("Product Create successful");
+      setOfferDiscount("");
+      setDiscount("");
+      setDescription("");
+      setPrice("");
+      setSelectedCategory("");
+      setName("");
+      setImageFiles([]);
+      setImages([]);
+      setAvailableQuantity("");
+      setOfferDiscount("");
+    }
   };
 
   return (
@@ -47,40 +94,47 @@ const ProductForm = () => {
       onSubmit={handleSubmit}
       className=" max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6 mt-6"
     >
-      {/* Title */}
+      {/* Name */}
       <div>
         <label
-          htmlFor="title"
+          htmlFor="Name"
           className="block text-sm font-medium text-gray-700"
         >
-          Title
+          Name *
         </label>
         <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          type="name"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           required
         />
       </div>
-
-      {/* Brand */}
+      {/* Category */}
       <div>
         <label
-          htmlFor="brand"
+          htmlFor="category"
           className="block text-sm font-medium text-gray-700"
         >
-          Brand
+          Category *
         </label>
-        <input
-          type="text"
-          id="brand"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
+        <select
+          id="category"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           required
-        />
+        >
+          <option value="" disabled>
+            Select a category
+          </option>
+          {data?.data?.map((category: { id: string; name: string }) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Available Quantity */}
@@ -89,7 +143,7 @@ const ProductForm = () => {
           htmlFor="availableQuantity"
           className="block text-sm font-medium text-gray-700"
         >
-          Available Quantity
+          Available Quantity *
         </label>
         <input
           type="number"
@@ -107,7 +161,7 @@ const ProductForm = () => {
           htmlFor="price"
           className="block text-sm font-medium text-gray-700"
         >
-          Price
+          Price *
         </label>
         <input
           type="number"
@@ -119,31 +173,13 @@ const ProductForm = () => {
         />
       </div>
 
-      {/* Rating */}
-      <div>
-        <label
-          htmlFor="rating"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Rating
-        </label>
-        <input
-          type="number"
-          id="rating"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          required
-        />
-      </div>
-
       {/* Description */}
       <div className="md:col-span-2">
         <label
           htmlFor="description"
           className="block text-sm font-medium text-gray-700"
         >
-          Description
+          Description *
         </label>
         <textarea
           id="description"
@@ -195,7 +231,7 @@ const ProductForm = () => {
           htmlFor="images"
           className="block text-sm font-medium text-gray-700"
         >
-          Product Images
+          Product Images (multiple)*
         </label>
         <input
           type="file"
@@ -205,7 +241,7 @@ const ProductForm = () => {
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         />
         <div className="mt-2 grid grid-cols-3 gap-2">
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <Image
               key={index}
               src={image}

@@ -11,14 +11,14 @@ const ShopApi = baseApi.injectEndpoints({
         };
       },
     }),
-    getShopByVendor: builder.mutation({
-      query: () => {
+    getShopByVendor: builder.query({
+      query: (id) => {
         return {
-          url: "/shop/id",
+          url: `/shop/${id}`,
           method: "GET",
         };
       },
     }),
   }),
 });
-export const { useCreateShopMutation, useGetShopByVendorMutation } = ShopApi;
+export const { useCreateShopMutation, useGetShopByVendorQuery } = ShopApi;
