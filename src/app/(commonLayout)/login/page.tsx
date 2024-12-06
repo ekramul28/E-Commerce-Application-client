@@ -19,7 +19,6 @@ const LoginPage = () => {
     const form = e.target as HTMLFormElement;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(password, email);
     try {
       const result = await loginUser({ email, password }).unwrap();
       if (result?.success) {

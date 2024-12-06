@@ -1,9 +1,10 @@
 "use client";
 
 import { useCreateShopMutation } from "@/redux/fetures/Shop/shopApi";
+import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const CreateShop = () => {
@@ -12,15 +13,20 @@ const CreateShop = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [createShop] = useCreateShopMutation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const user = useAppSelector((state: RootState) => state.auth.user);
-
+  const { data } = useGetMyProfileQuery(undefined);
+  const vendorId = data?.data?.id;
+  if (!vendorId) {
+    toast.error("fist login");
+  }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     const data = {
-      title,
+      name: title,
       description,
-      venderId: user?.userId,
+      vendorId,
     };
     formData.append("data", JSON.stringify(data));
 
@@ -30,14 +36,20 @@ const CreateShop = () => {
 
     try {
       const shop = await createShop(formData).unwrap();
+
       if (shop.success) {
         toast.success("Shop created successfully!");
         setTitle("");
         setDescription("");
         setImage(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating shop:", error);
+      const message = error.data?.message || "something went wrong";
+      toast.error(message);
     }
   };
 
@@ -54,7 +66,7 @@ const CreateShop = () => {
             htmlFor="Name"
             className="block text-sm font-medium text-gray-700"
           >
-            Title
+            Name
           </label>
           <input
             type="text"
