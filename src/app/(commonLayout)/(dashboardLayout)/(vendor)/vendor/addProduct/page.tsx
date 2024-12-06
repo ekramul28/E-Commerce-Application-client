@@ -63,7 +63,7 @@ const ProductForm = () => {
       discount,
       offerDiscount,
     };
-
+    console.log(Data);
     console.log("category", selectedCategory);
 
     formData.append("data", JSON.stringify(Data));
@@ -73,7 +73,7 @@ const ProductForm = () => {
     });
 
     const result = await createProduct(formData).unwrap();
-
+    console.log(result);
     if (result.success) {
       toast.success("Product Create successful");
       setOfferDiscount("");

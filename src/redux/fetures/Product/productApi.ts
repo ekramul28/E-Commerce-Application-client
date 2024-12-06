@@ -4,6 +4,7 @@ const ProductApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createProduct: builder.mutation({
       query: (data) => {
+        console.log("inside api", data);
         return {
           url: "/product",
           method: "POST",
