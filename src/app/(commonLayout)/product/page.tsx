@@ -1,103 +1,126 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TMeta, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import CustomPagination from "@/components/Pagination/Pagination";
 import Container from "@/components/Container/Container";
 import MedicineCard from "./_components/MedicineCard";
-import { useProductQuery } from "@/app/redux/features/products/productApi";
+import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 
 const Medicine = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
+  const [sortValue, setSortValue] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [offerFilter, setOfferFilter] = useState(false);
-  const [discountRange, setDiscountRange] = useState([0, 100]);
-  // searchTerm", "sort", "limit", "page", "fields"
-  const { data, isLoading, error } = useProductQuery([
+
+  const getSortParams = (value: string) => {
+    switch (value) {
+      case "name_asc":
+        return { sortBy: "name", sortOrder: "asc" };
+      case "name_desc":
+        return { sortBy: "name", sortOrder: "desc" };
+      case "createdAt_asc":
+        return { sortBy: "createdAt", sortOrder: "asc" };
+      case "createdAt_desc":
+        return { sortBy: "createdAt", sortOrder: "desc" };
+      default:
+        return { sortBy: "", sortOrder: "" };
+    }
+  };
+
+  const { sortBy, sortOrder } = getSortParams(sortValue);
+
+  //  {
+  //   searchTerm,
+  //   sortBy,
+  //   sortOrder,
+  //   page: currentPage,
+  //   limit: 10,
+  //   priceRange: priceRange.join(","),
+  //   brands: selectedBrands.join(","),
+  //   offers: offerFilter,
+  // };
+
+  const queryParams = [
     { name: "searchTerm", value: searchTerm },
-    { name: "sort", value: sortOrder },
+    { name: "sortBy", value: sortBy },
+    { name: "sortOrder", value: sortOrder },
     { name: "page", value: currentPage },
-    // { name: "fields", value: priceRange },
-    // { name: "filter", value: offerFilter },
-  ]);
-
-  const products: TProduct[] = data?.data?.result;
+    { name: "limit", value: 10 },
+    { name: "priceRange", value: priceRange.join(",") },
+  ];
+  console.log(searchTerm);
+  const { data, isLoading, error } = useGetAllProductIdQuery(queryParams);
+  console.log(data);
+  const products: TProduct[] = data?.data?.data || [];
   const meta: TMeta = data?.data?.meta;
+  const totalPages = meta?.totalPage || 1;
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const handlePageChange = (page: number) => setCurrentPage(page);
+
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    setSearchTerm(e.target.searchInput.value);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOrder(e.target.value);
-  };
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setSortValue(e.target.value);
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPriceRange = e.target.value.split(",").map(Number) as [
-      number,
-      number
-    ];
-    setPriceRange(newPriceRange);
+    const [min, max] = e.target.value.split(",").map(Number);
+    if (!isNaN(min) && !isNaN(max)) {
+      setPriceRange([min, max]);
+    }
   };
 
-  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setSelectedBrands(
       Array.from(e.target.selectedOptions, (option) => option.value)
     );
-  };
 
-  const handleOfferChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOfferChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setOfferFilter(e.target.checked);
-  };
-
-  const totalPages = meta?.totalPage;
 
   return (
     <Container>
       <div className="mt-36 md:flex">
         <div className="md:w-1/4 p-4 ">
-          {/* Custom Search Bar */}
+          {/* Search Bar */}
           <div className="mb-4">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={handleSearch}
-              placeholder="Search products"
-              className="w-full p-2 border rounded"
-            />
-            <button
-              onClick={() => setSearchTerm(searchTerm)}
-              className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Search
-            </button>
+            <form onSubmit={(e) => handleSearch(e)}>
+              <input
+                type="text"
+                id="searchInput" // Assign an ID to the input
+                placeholder="Search products"
+                className="w-full p-2 border rounded"
+              />
+              <button
+                type="submit"
+                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+              >
+                Search
+              </button>
+            </form>
           </div>
 
           {/* Filters */}
           <div className="space-y-4">
             {/* Sorting */}
-
             <div>
               <label className="block mb-2">Sort By</label>
               <select
-                value={sortOrder}
+                value={sortValue}
                 onChange={handleSortChange}
                 className="w-full p-2 border rounded"
               >
-                <option>filter</option>
-                <option value="updatedAt">New to Old</option>
-                <option value="-updatedAt">Old to New</option>
-                <option value="title">A-Z</option>
-                <option value="-title">Z-A</option>
-                <option value="-rating">top Rating</option>
+                <option value="">Default</option>
+                <option value="name_asc">Name (A-Z)</option>
+                <option value="name_desc">Name (Z-A)</option>
+                <option value="createdAt_asc">Created At (Oldest)</option>
+                <option value="createdAt_desc">Created At (Newest)</option>
               </select>
             </div>
 
@@ -122,11 +145,10 @@ const Medicine = () => {
                 onChange={handleBrandChange}
                 className="w-full p-2 border rounded"
               >
-                {/* Replace these options with your brand list */}
                 <option value="PharmaTrust">PharmaTrust</option>
                 <option value="HealWell Pharma">HealWell Pharma</option>
                 <option value="MediCare Pharma">MediCare Pharma</option>
-                <option value="AllerFree">HeartCare</option>
+                <option value="HeartCare">HeartCare</option>
                 <option value="DiabeCare">DiabeCare</option>
               </select>
             </div>
@@ -146,18 +168,22 @@ const Medicine = () => {
         </div>
 
         <div className="lg:w-3/4">
-          <div className="grid  md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen">
+          {/* Product Cards */}
+          <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen">
             {isLoading ? (
               <div className="flex justify-center items-center w-full h-screen">
                 <LoadingSpinner size={200} color="#3498db" strokeWidth={3} />
               </div>
+            ) : error ? (
+              <p className="text-red-500">Failed to load products.</p>
             ) : (
-              products?.map((product) => (
-                <MedicineCard key={product._id} product={product} />
+              products.map((product) => (
+                <MedicineCard key={product.id} product={product} />
               ))
             )}
           </div>
 
+          {/* Pagination */}
           <div className="flex justify-center items-center my-7">
             <CustomPagination
               currentPage={currentPage}

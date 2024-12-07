@@ -18,6 +18,7 @@ const ProductForm = () => {
   );
   const [price, setPrice] = useState<number | string>("");
   const [description, setDescription] = useState("");
+  const [offer, setOffer] = useState("");
   const [discount, setDiscount] = useState<number | string | undefined>();
   const [offerDiscount, setOfferDiscount] = useState<
     number | string | undefined
@@ -59,6 +60,7 @@ const ProductForm = () => {
       shopId: shopData.data.id,
       Quantity: availableQuantity,
       price,
+      offer,
       description,
       discount,
       offerDiscount,
@@ -82,6 +84,7 @@ const ProductForm = () => {
       setPrice("");
       setSelectedCategory("");
       setName("");
+      setOffer("");
       setImageFiles([]);
       setImages([]);
       setAvailableQuantity("");
@@ -134,6 +137,32 @@ const ProductForm = () => {
               {category.name}
             </option>
           ))}
+        </select>
+      </div>
+      {/* Category */}
+      <div>
+        <label
+          htmlFor="offer"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Offer *
+        </label>
+        <select
+          id="offer"
+          value={offer}
+          onChange={(e) => setOffer(e.target.value)}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          required
+        >
+          <option value="" disabled>
+            Select a offer
+          </option>
+          <option key="true" value="true">
+            True
+          </option>
+          <option key="false" value="false">
+            False
+          </option>
         </select>
       </div>
 

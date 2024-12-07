@@ -3,12 +3,12 @@ import {
   useAddProductMutation,
   useUpdateProductCartMutation,
 } from "@/app/redux/features/cart/cartApi";
-import { useSingleProductQuery } from "@/app/redux/features/products/productApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import Container from "@/components/Container/Container";
 import ReadOnlyRating from "@/components/Rating/Rating";
 import Button from "@/components/Shared/Button";
+import { useGetProductByIdQuery } from "@/redux/fetures/Product/productApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -19,7 +19,7 @@ interface ErrorResponse {
 }
 const DetailsPage = () => {
   const { id } = useParams();
-  const { data } = useSingleProductQuery(id);
+  const { data } = useGetProductByIdQuery(id);
   const [quantity, setQuantity] = useState(0);
   const [addProduct] = useAddProductMutation();
   const [updateProductCart] = useUpdateProductCartMutation();
@@ -27,7 +27,7 @@ const DetailsPage = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
 
   const product = data?.data;
-  const image = data?.data?.image;
+  const image = data?.data?.images;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const slideInterval = 3000;
@@ -69,9 +69,9 @@ const DetailsPage = () => {
     try {
       const result = await addProduct(data);
       const updateData = {
-        _id,
+        id,
         data: {
-          availableQuantity: quantity,
+          Quantity: quantity,
         },
       };
       const update = await updateProductCart(updateData);
@@ -160,7 +160,7 @@ const DetailsPage = () => {
               <div className="flex items-center gap-3">
                 <p>Available Quantity:</p>
                 <p className="px-5 py-1 font-semibold border">
-                  {product?.availableQuantity - quantity}
+                  {product?.Quantity - quantity}
                 </p>
               </div>
               {/* Quantity */}
@@ -182,7 +182,7 @@ const DetailsPage = () => {
               {/* Wishlist */}
               <div className="flex flex-col gap-2 mt-10">
                 <Button
-                  onClick={() => handleAddToCart(product._id)}
+                  onClick={() => handleAddToCart(product.id)}
                   className="py-2 text-white"
                 >
                   Add To Cart

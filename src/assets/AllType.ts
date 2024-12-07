@@ -1,7 +1,7 @@
 export type TProduct = {
-  _id: string;
-  image: string[];
-  title: string;
+  id: string;
+  images: string[];
+  name: string;
   brand: string;
   availableQuantity: number;
   price: number;

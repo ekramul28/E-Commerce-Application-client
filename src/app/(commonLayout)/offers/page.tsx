@@ -5,7 +5,7 @@ import { TMeta, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import CustomPagination from "@/components/Pagination/Pagination";
 import Container from "@/components/Container/Container";
-import MedicineCard from "../medicine/_components/MedicineCard";
+import MedicineCard from "../product/_components/MedicineCard";
 
 const Offers = () => {
   const [currentPage, setCurrentPage] = useState(1);

@@ -14,7 +14,6 @@ const CreateShop = () => {
   const [image, setImage] = useState<File | null>(null);
   const [createShop] = useCreateShopMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const user = useAppSelector((state: RootState) => state.auth.user);
   const { data } = useGetMyProfileQuery(undefined);
   const vendorId = data?.data?.id;
   if (!vendorId) {
