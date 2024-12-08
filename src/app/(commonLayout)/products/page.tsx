@@ -12,7 +12,7 @@ const Products = ({ searchParams }: { searchParams: any }) => {
     name: key,
     value,
   }));
-
+  console.log(productParams);
   const { data, isLoading, error } = useGetAllProductIdQuery(productParams);
   console.log(data?.data.data);
 

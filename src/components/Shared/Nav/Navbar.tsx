@@ -3,7 +3,7 @@ import Image from "next/image";
 import Input from "../input/input";
 import NavLinkBar from "./NavLinkBar";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import { logout } from "@/app/redux/features/Auth/authSlice";
@@ -18,6 +18,17 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const handelLogout = () => {
     dispatch(logout());
+  };
+
+  const route = useRouter();
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchTerm = formData.get("search")?.toString() || "";
+    console.log("Search Term:", searchTerm);
+
+    route.push(`products?searchTerm=${searchTerm}`);
+    // Add logic to handle search functionality
   };
   return (
     <div className={`fixed top-0 left-0 w-full z-50  bg-white shadow-lg `}>
@@ -60,7 +71,7 @@ const Navbar = () => {
           </div>
           <div className=" md:flex hidden lg:block">
             <div className="col-span-2 lg:col-span-3 lg:flex lg:items-end">
-              <form className="w-full">
+              <form onSubmit={(e) => handleSearchSubmit(e)} className="w-full">
                 <label htmlFor="UserEmail" className="sr-only">
                   {" "}
                   Email{" "}
@@ -86,14 +97,16 @@ const Navbar = () => {
                       ></path>
                     </svg>
                     <Input
-                      type="email"
-                      id="UserEmail"
-                      // placeholder="Search for"
-                      className="w-full  bg-white p-2 pl-10 border-none focus:border-transparent focus:ring-transparent sm:text-sm"
+                      type="text"
+                      name="search"
+                      className="w-full ml-8 bg-white p-2 pl-10 border-none focus:border-transparent focus:ring-transparent sm:text-sm"
                     />
                   </div>
 
-                  <button className="mt-1 w-full bg-black rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0">
+                  <button
+                    type="submit"
+                    className="mt-1 w-full bg-black rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0"
+                  >
                     Search
                   </button>
                 </div>

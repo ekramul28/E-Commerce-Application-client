@@ -36,17 +36,6 @@ const Medicine = () => {
 
   const { sortBy, sortOrder } = getSortParams(sortValue);
 
-  //  {
-  //   searchTerm,
-  //   sortBy,
-  //   sortOrder,
-  //   page: currentPage,
-  //   limit: 10,
-  //   priceRange: priceRange.join(","),
-  //   brands: selectedBrands.join(","),
-  //   offers: offerFilter,
-  // };
-
   const queryParams = [
     { name: "searchTerm", value: searchTerm },
     { name: "sortBy", value: sortBy },
@@ -57,6 +46,7 @@ const Medicine = () => {
     { name: "categoryId", value: selectedCategory },
     { name: "price", value: priceRange },
   ];
+  console.log(searchTerm);
   const { data, isLoading, error } = useGetAllProductIdQuery(queryParams);
   console.log(data);
   const products: TProduct[] = data?.data?.data || [];

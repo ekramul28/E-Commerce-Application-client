@@ -2,14 +2,12 @@
 import React from "react";
 import Image from "next/image";
 import SearchField from "./SearchField";
-import { items } from "@/assets/BannerData";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const Banner: React.FC = () => {
   const { data } = useGetCategoryQuery(undefined);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const handelCategory = (category: string) => {
     router.push(`/products?${category}`);
   };
