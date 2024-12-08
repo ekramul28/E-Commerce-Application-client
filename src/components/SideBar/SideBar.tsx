@@ -5,15 +5,16 @@ import React, { useState } from "react";
 import Profile from "../Profile/Profile";
 import { SidebarOptions } from "./SidebarOptions";
 import { adminLinks, userLinks, vendorLinks } from "./constants";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-  const user = {
-    role: "VENDOR",
-  };
+  const user = useAppSelector((state: RootState) => state.auth.user);
+
   return (
     <div>
       <div className="sm:hidden   ">

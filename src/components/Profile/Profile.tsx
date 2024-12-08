@@ -1,7 +1,7 @@
 "use client";
 
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
 import Image from "next/image";
 
 const Profile = () => {
