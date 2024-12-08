@@ -1,15 +1,15 @@
 "use client";
 import React, { useState } from "react";
-import { useProductQuery } from "../../redux/features/products/productApi";
 import { TMeta, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import CustomPagination from "@/components/Pagination/Pagination";
 import Container from "@/components/Container/Container";
 import MedicineCard from "../product/_components/MedicineCard";
+import { useCartProductQuery } from "@/redux/fetures/cart/cartApi";
 
 const Offers = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading, error } = useProductQuery([
+  const { data, isLoading, error } = useCartProductQuery([
     { name: "page", value: 1 },
   ]);
 

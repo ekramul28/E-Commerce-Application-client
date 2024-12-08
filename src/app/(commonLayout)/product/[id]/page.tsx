@@ -1,30 +1,27 @@
 "use client";
-import {
-  useAddProductMutation,
-  useUpdateProductCartMutation,
-} from "@/app/redux/features/cart/cartApi";
-import { useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
+
 import Container from "@/components/Container/Container";
 import ReadOnlyRating from "@/components/Rating/Rating";
 import Button from "@/components/Shared/Button";
+import { useAddCartMutation } from "@/redux/fetures/cart/cartApi";
 import { useGetProductByIdQuery } from "@/redux/fetures/Product/productApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-interface ErrorResponse {
-  message: string;
-}
+
 const DetailsPage = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
-  const [quantity, setQuantity] = useState(0);
-  const [addProduct] = useAddProductMutation();
-  const [updateProductCart] = useUpdateProductCartMutation();
+  const [addCart] = useAddCartMutation();
 
-  const user = useAppSelector((state: RootState) => state.auth.user);
+  const [quantity, setQuantity] = useState(0);
+  const { data: customerData } = useGetMyProfileQuery(undefined);
+  const customer = customerData?.data.id;
 
   const product = data?.data;
   const image = data?.data?.images;
@@ -55,47 +52,21 @@ const DetailsPage = () => {
       return prevQuantity;
     });
   };
+  const user = useAppSelector((state: RootState) => state.auth.user);
 
-  const handleAddToCart = async (_id: string) => {
+  const handleAddToCart = async (id: string) => {
     const data = {
-      product: _id,
-      productQuantity: quantity | 0,
+      productId: id,
+      quantity: quantity,
       email: user?.email,
-      phoneNo: user?.phoneNo,
     };
-    if (quantity === 0) {
-      return toast.error("Product quantity is 0");
-    }
+
     try {
-      const result = await addProduct(data);
-      const updateData = {
-        id,
-        data: {
-          Quantity: quantity,
-        },
-      };
-      const update = await updateProductCart(updateData);
-      if (result?.data?.success) {
+      const result = await addCart(data).unwrap();
+      if (result?.success) {
         toast.success("Product Add Successfully");
       }
-
-      const error = result?.error;
-
-      const fetchError = error as FetchBaseQueryError;
-
-      const res = fetchError?.data as ErrorResponse;
-      const message = res?.message;
-      console.log(message);
-      if (message === "login  first") {
-        window.location.href = "/login";
-        toast.error("login first");
-        return;
-      }
-
-      if (error) {
-        toast.error("Already Added");
-      }
-      console.log(result);
+      console.log("add card", result);
     } catch (error) {
       console.log(error);
     }

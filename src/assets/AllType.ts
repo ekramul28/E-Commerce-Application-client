@@ -35,9 +35,9 @@ export type TMeta = {
 };
 
 export type TCart = {
-  _id: string;
+  id: string;
   product: TProduct;
-  productQuantity: number;
+  quantity: number;
   email: string;
   discountedPrice: number;
   OfferPrice: number;

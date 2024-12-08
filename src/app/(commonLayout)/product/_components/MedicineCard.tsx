@@ -1,13 +1,38 @@
 import { TProduct } from "@/assets/AllType";
 import Button from "@/components/Shared/Button";
+import { useAddCartMutation } from "@/redux/fetures/cart/cartApi";
+import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
+import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
 interface MedicineCardProps {
   product: TProduct;
 }
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
-  console.log("product", product);
   const follow = true;
+
+  const [addCart] = useAddCartMutation();
+  const user = useAppSelector((state: RootState) => state.auth.user);
+  const handleAddToCart = async (id: string) => {
+    const data = {
+      productId: id,
+      quantity: 1,
+      email: user?.email,
+    };
+
+    try {
+      const result = await addCart(data).unwrap();
+      if (result?.success) {
+        toast.success("Product Add Successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    //  if(result.data)
+  };
   return (
     <div>
       <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[480px]">
@@ -88,7 +113,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
             </div>
             <div>
               <Button
-                // onClick={() => handleAddToCart(product.id)}
+                onClick={() => handleAddToCart(product.id)}
                 className="p-2 text-white bg-blue-500 flex gap-2 font-semibold"
               >
                 Add To Cart

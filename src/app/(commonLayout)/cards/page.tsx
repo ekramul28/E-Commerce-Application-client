@@ -1,22 +1,24 @@
 "use client";
 import React from "react";
-import { useAppSelector } from "../../redux/hooks";
-import {
-  useCartProductQuery,
-  useDeleteProductCartMutation,
-} from "../../redux/features/cart/cartApi";
+
 import Image from "next/image";
-import { RootState } from "../../redux/store";
 import { TCart, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import { toast } from "react-toastify";
 import SubTotal from "./SubTotal";
 import Container from "@/components/Container/Container";
+import { useAppSelector } from "@/redux/hooks";
+import {
+  useCartProductQuery,
+  useDeleteProductCartMutation,
+} from "@/redux/fetures/cart/cartApi";
+import { RootState } from "@/redux/store";
 
 const Cards = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-  const { data, isLoading } = useCartProductQuery(user?.email);
-  const cartProducts = data?.data ?? [];
+  const { data, isLoading } = useCartProductQuery(undefined);
+
+  const cartProducts = data?.data.items || [];
   const [deleteProductCart] = useDeleteProductCartMutation();
 
   if (isLoading) {
@@ -42,7 +44,7 @@ const Cards = () => {
                 </h1>
               </header>
               {cartProducts.map((card: TCart) => (
-                <div key={card._id}>
+                <div key={card.id}>
                   <ul className="space-y-4 border-2 my-3 p-2">
                     <li className="flex items-center gap-4">
                       <div className="w-[100px] h-[100px] flex items-center justify-center">
@@ -111,13 +113,13 @@ const Cards = () => {
 
                           <div className="h-8 w-12 border-2 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none">
                             <p className="flex justify-center items-center font-bold w-full h-full">
-                              {card?.productQuantity}
+                              {card?.quantity}
                             </p>
                           </div>
                         </form>
 
                         <button
-                          onClick={() => handelDelete(card?._id)}
+                          onClick={() => handelDelete(card?.id)}
                           className=" transition mx-4 text-red-600"
                         >
                           <span className="sr-only">Remove item</span>

@@ -4,12 +4,12 @@ import Input from "../input/input";
 import NavLinkBar from "./NavLinkBar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { RootState } from "@/app/redux/store";
-import { logout } from "@/app/redux/features/Auth/authSlice";
 import ProfileDropdown from "@/components/ProfileDropdown/ProfileDrop";
 import Badge from "@/components/TotalCardCount/TotalCardCount";
-import { useGetAllProductPriceQuery } from "@/app/redux/features/cart/cartApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { useGetAllProductPriceQuery } from "@/redux/fetures/cart/cartApi";
+import { logout } from "@/redux/fetures/Auth/authSlice";
 
 const Navbar = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);

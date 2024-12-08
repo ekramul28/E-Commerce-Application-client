@@ -1,10 +1,10 @@
 import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { useAppSelector } from "../../redux/hooks";
-import { RootState } from "../../redux/store";
-import { useGetAllProductPriceQuery } from "../../redux/features/cart/cartApi";
-import { usePaymentMutation } from "../../redux/features/payment/paymentApi";
 import { toast } from "react-toastify";
+import { useAppSelector } from "@/redux/hooks";
+import { useGetAllProductPriceQuery } from "@/redux/fetures/cart/cartApi";
+import { usePaymentMutation } from "@/redux/fetures/payment/paymentApi";
+import { RootState } from "@/redux/store";
 
 const SubTotal = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
