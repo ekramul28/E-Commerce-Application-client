@@ -8,13 +8,17 @@ import ProfileDropdown from "@/components/ProfileDropdown/ProfileDrop";
 import Badge from "@/components/TotalCardCount/TotalCardCount";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import { useGetAllProductPriceQuery } from "@/redux/fetures/cart/cartApi";
+import {
+  useCartProductQuery,
+  useGetAllProductPriceQuery,
+} from "@/redux/fetures/cart/cartApi";
 import { logout } from "@/redux/fetures/Auth/authSlice";
 
 const Navbar = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-  const { data } = useGetAllProductPriceQuery(user?.email);
-  const cart = data?.data?.totalCart;
+  const { data, isLoading } = useCartProductQuery(undefined);
+
+  const cartProducts = data?.data?.items;
   const dispatch = useAppDispatch();
   const handelLogout = () => {
     dispatch(logout());
@@ -173,7 +177,7 @@ const Navbar = () => {
             <div>
               <Link href={"/cards"}>
                 <p className="md:font-medium md:text-sm font-normal text-xs flex items-center md:gap-2">
-                  <Badge count={cart}>
+                  <Badge count={cartProducts?.length}>
                     <svg
                       className="md:h-6 md:w-6 h-4 w-4"
                       data-slot="icon"
