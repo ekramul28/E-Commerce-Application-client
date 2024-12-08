@@ -25,9 +25,6 @@ const CategoryForm = () => {
       formData.append("file", image);
     }
 
-    for (const [key, value] of formData.entries()) {
-      console.log("from", key, value);
-    }
     const result = await createCategory(formData).unwrap();
     if (result.success) {
       setName("");

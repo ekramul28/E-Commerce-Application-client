@@ -3,6 +3,7 @@ export type TProduct = {
   images: string[];
   name: string;
   brand: string;
+  shop: shop;
   availableQuantity: number;
   price: number;
   rating: number;
@@ -11,6 +12,19 @@ export type TProduct = {
   offer?: boolean;
   offerDiscount?: number;
   isDeleted?: boolean;
+};
+
+export type shop = {
+  id: string;
+  logo: string;
+  name: string;
+};
+
+export type ICategory = {
+  id: string;
+  image: string;
+  name: string;
+  offer: string;
 };
 
 export type TMeta = {

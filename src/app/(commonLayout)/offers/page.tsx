@@ -37,7 +37,7 @@ const Offers = () => {
             </div>
           ) : (
             offerProduct?.map((product) => (
-              <MedicineCard key={product._id} product={product} />
+              <MedicineCard key={product.id} product={product} />
             ))
           )}
         </div>

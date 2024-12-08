@@ -49,7 +49,7 @@ const Cards = () => {
                         <Image
                           height={300}
                           width={300}
-                          src={card?.product?.image[0]}
+                          src={card?.product?.images[0]}
                           alt="cardImage"
                           className="size-16 rounded object-cover"
                         />
@@ -57,7 +57,7 @@ const Cards = () => {
 
                       <div>
                         <h3 className="text-base font-bold text-gray-900">
-                          {card?.product?.title}
+                          {card?.product?.name}
                         </h3>
 
                         <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">

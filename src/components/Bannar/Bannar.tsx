@@ -4,6 +4,7 @@ import Image from "next/image";
 import SearchField from "./SearchField";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ICategory } from "@/assets/AllType";
 
 const Banner: React.FC = () => {
   const { data } = useGetCategoryQuery(undefined);
@@ -18,7 +19,7 @@ const Banner: React.FC = () => {
         <SearchField />
       </div>
       <div className="flex justify-center flex-wrap gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap mb-2 ">
-        {data?.data.map((item, index) => (
+        {data?.data.map((item: ICategory, index: number) => (
           <div
             key={index}
             className="max-w-sm rounded  border-2 w-36  hover:shadow-2xl hover:cursor-pointer px-2 transition-transform transform hover:scale-105 "

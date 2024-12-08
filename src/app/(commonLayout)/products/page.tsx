@@ -4,6 +4,7 @@ import LoadingSpinner from "@/components/Loding/Loding";
 import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 import React from "react";
 import MedicineCard from "../product/_components/MedicineCard";
+import { TProduct } from "@/assets/AllType";
 
 const Products = ({ searchParams }: { searchParams: any }) => {
   console.log(searchParams);
@@ -27,7 +28,7 @@ const Products = ({ searchParams }: { searchParams: any }) => {
           ) : error ? (
             <p className="text-red-500">Failed to load products.</p>
           ) : (
-            data?.data?.data.map((product) => (
+            data?.data?.data.map((product: TProduct) => (
               <MedicineCard key={product.id} product={product} />
             ))
           )}
