@@ -7,14 +7,17 @@ import CustomPagination from "@/components/Pagination/Pagination";
 import Container from "@/components/Container/Container";
 import MedicineCard from "./_components/MedicineCard";
 import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
+import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
 
 const Medicine = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortValue, setSortValue] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [offerFilter, setOfferFilter] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 0]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [offerFilter, setOfferFilter] = useState("");
+
+  const { data: category } = useGetCategoryQuery(undefined);
 
   const getSortParams = (value: string) => {
     switch (value) {
@@ -50,9 +53,10 @@ const Medicine = () => {
     { name: "sortOrder", value: sortOrder },
     { name: "page", value: currentPage },
     { name: "limit", value: 10 },
-    { name: "priceRange", value: priceRange.join(",") },
+    { name: "offer", value: offerFilter },
+    { name: "categoryId", value: selectedCategory },
+    { name: "price", value: priceRange },
   ];
-  console.log(searchTerm);
   const { data, isLoading, error } = useGetAllProductIdQuery(queryParams);
   console.log(data);
   const products: TProduct[] = data?.data?.data || [];
@@ -77,12 +81,13 @@ const Medicine = () => {
   };
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setSelectedBrands(
-      Array.from(e.target.selectedOptions, (option) => option.value)
-    );
+    setSelectedCategory(e.target.value);
 
-  const handleOfferChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setOfferFilter(e.target.checked);
+  const handleOfferChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setOfferFilter("true");
+    }
+  };
 
   return (
     <Container>
@@ -116,7 +121,7 @@ const Medicine = () => {
                 onChange={handleSortChange}
                 className="w-full p-2 border rounded"
               >
-                <option value="">Default</option>
+                <option aria-readonly>Default</option>
                 <option value="name_asc">Name (A-Z)</option>
                 <option value="name_desc">Name (Z-A)</option>
                 <option value="createdAt_asc">Created At (Oldest)</option>
@@ -138,18 +143,22 @@ const Medicine = () => {
 
             {/* Brands */}
             <div>
-              <label className="block mb-2">Brands</label>
+              <label className="block mb-2">Category</label>
               <select
-                multiple
-                value={selectedBrands}
+                value={selectedCategory}
                 onChange={handleBrandChange}
                 className="w-full p-2 border rounded"
               >
-                <option value="PharmaTrust">PharmaTrust</option>
-                <option value="HealWell Pharma">HealWell Pharma</option>
-                <option value="MediCare Pharma">MediCare Pharma</option>
-                <option value="HeartCare">HeartCare</option>
-                <option value="DiabeCare">DiabeCare</option>
+                <option aria-readonly value="">
+                  All Category Data
+                </option>
+                {category?.data?.map(
+                  (category: { id: string; name: string }) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
@@ -158,7 +167,7 @@ const Medicine = () => {
               <label className="block mb-2">
                 <input
                   type="checkbox"
-                  checked={offerFilter}
+                  value={offerFilter}
                   onChange={handleOfferChange}
                 />
                 Available Offers

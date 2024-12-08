@@ -25,7 +25,11 @@ const ProductApi = baseApi.injectEndpoints({
             if (
               item.value !== undefined &&
               item.value !== null &&
-              item.value !== ""
+              item.value !== "" &&
+              !(
+                Array.isArray(item.value) &&
+                item.value.every((val: number) => val === 0)
+              )
             ) {
               params.append(item.name, String(item.value)); // Ensure value is a string
             }
