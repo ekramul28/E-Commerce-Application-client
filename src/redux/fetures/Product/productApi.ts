@@ -1,4 +1,3 @@
-import { TQueryParam } from "@/app/redux/features/products/productApi";
 import { baseApi } from "../../api/baseApi";
 
 const ProductApi = baseApi.injectEndpoints({

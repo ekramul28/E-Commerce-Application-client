@@ -1,5 +1,4 @@
 "use client";
-import { TUser } from "@/app/redux/features/Auth/authSlice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
