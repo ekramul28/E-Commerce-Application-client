@@ -25,8 +25,8 @@ const Cards = () => {
     <LoadingSpinner />;
   }
   const handelDelete = async (id: string) => {
-    const result = await deleteProductCart([id]).unwrap();
-    console.log(result);
+    const result = await deleteProductCart(id).unwrap();
+    console.log("delete", result);
 
     if (result?.success) {
       toast.success("Products removed from cart");
