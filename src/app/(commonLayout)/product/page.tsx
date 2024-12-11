@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -8,6 +9,8 @@ import Container from "@/components/Container/Container";
 import MedicineCard from "./_components/MedicineCard";
 import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
+import InfiniteScrollFn from "@/utils/InfiniteScrollFn";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Medicine = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,14 +49,7 @@ const Medicine = () => {
     { name: "categoryId", value: selectedCategory },
     { name: "price", value: priceRange },
   ];
-  console.log(searchTerm);
-  const { data, isLoading, error } = useGetAllProductIdQuery(queryParams);
-  console.log(data);
-  const products: TProduct[] = data?.data?.data || [];
-  const meta: TMeta = data?.data?.meta;
-  const totalPages = meta?.totalPage || 1;
-
-  const handlePageChange = (page: number) => setCurrentPage(page);
+  // const { data, isLoading, error } = useGetAllProductIdQuery(queryParams);
 
   const handleSearch = (e: any) => {
     e.preventDefault();
@@ -78,6 +74,57 @@ const Medicine = () => {
       setOfferFilter("true");
     }
   };
+
+  const { data, isLoading, error } = useGetAllProductIdQuery(queryParams);
+
+  const postsPerPage = 10;
+
+  const initialPosts = data?.data?.data || [];
+  console.log(initialPosts);
+  const [posts, setPosts] = useState<TProduct[]>(initialPosts);
+  const [hasMore, setHasMore] = useState<boolean>(
+    initialPosts.length >= postsPerPage
+  );
+
+  useEffect(() => {
+    // Update the posts state when the initial data changes
+    if (data?.data?.data) {
+      setPosts(data.data.data);
+    }
+  }, [data]);
+
+  const fetchMoreData = async () => {
+    try {
+      const nextPage = currentPage + 1;
+
+      // Simulating API pagination
+      // const additionalParams = { ...productParams, page: nextPage };
+
+      queryParams.push({ name: "page", value: nextPage });
+      console.log(postsPerPage);
+
+      const result = await useGetAllProductIdQuery(queryParams);
+
+      const morePosts = result?.data?.data || [];
+      setPosts((prevPosts) => [...prevPosts, ...morePosts]);
+      setCurrentPage(nextPage);
+
+      if (morePosts.length < postsPerPage) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Error fetching more posts:", error);
+      setHasMore(false);
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <div>Error fetching products.</div>;
+  }
 
   return (
     <Container>
@@ -111,7 +158,7 @@ const Medicine = () => {
                 onChange={handleSortChange}
                 className="w-full p-2 border rounded"
               >
-                <option aria-readonly>Default</option>
+                <option>Default</option>
                 <option value="name_asc">Name (A-Z)</option>
                 <option value="name_desc">Name (Z-A)</option>
                 <option value="createdAt_asc">Created At (Oldest)</option>
@@ -139,9 +186,7 @@ const Medicine = () => {
                 onChange={handleBrandChange}
                 className="w-full p-2 border rounded"
               >
-                <option aria-readonly value="">
-                  All Category Data
-                </option>
+                <option value="">All Category Data</option>
                 {category?.data?.map(
                   (category: { id: string; name: string }) => (
                     <option key={category.id} value={category.id}>
@@ -168,28 +213,28 @@ const Medicine = () => {
 
         <div className="lg:w-3/4">
           {/* Product Cards */}
-          <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen">
-            {isLoading ? (
-              <div className="flex justify-center items-center w-full h-screen">
-                <LoadingSpinner size={200} color="#3498db" strokeWidth={3} />
-              </div>
-            ) : error ? (
-              <p className="text-red-500">Failed to load products.</p>
-            ) : (
-              products.map((product) => (
+          <InfiniteScroll
+            dataLength={posts?.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={<LoadingSpinner />}
+            endMessage={<p>No more products to load.</p>}
+          >
+            <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen">
+              {posts.map((product: TProduct) => (
                 <MedicineCard key={product.id} product={product} />
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          </InfiniteScroll>
 
           {/* Pagination */}
-          <div className="flex justify-center items-center my-7">
+          {/* <div className="flex justify-center items-center my-7">
             <CustomPagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </Container>
