@@ -9,6 +9,7 @@ const OrderApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["order"],
     }),
     CustomerOrderApi: builder.query({
       query: (id) => {
@@ -17,8 +18,23 @@ const OrderApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["order"],
+    }),
+    VendorOrderUpdate: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/order`,
+          method: "PUT",
+          body: data,
+        };
+      },
+      invalidatesTags: ["order"],
     }),
   }),
 });
 
-export const { useVenderOrderApiQuery, useCustomerOrderApiQuery } = OrderApi;
+export const {
+  useVenderOrderApiQuery,
+  useCustomerOrderApiQuery,
+  useVendorOrderUpdateMutation,
+} = OrderApi;

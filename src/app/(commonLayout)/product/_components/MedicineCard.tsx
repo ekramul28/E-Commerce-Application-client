@@ -1,10 +1,8 @@
 import { TProduct } from "@/assets/AllType";
 import Button from "@/components/Shared/Button";
 import { useAddCartMutation } from "@/redux/fetures/cart/cartApi";
-import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -13,7 +11,6 @@ interface MedicineCardProps {
 }
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
   const follow = true;
-  console.log(product);
   const [addCart] = useAddCartMutation();
   const user = useAppSelector((state: RootState) => state.auth.user);
   const handleAddToCart = async (id: string) => {
@@ -34,7 +31,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
   };
   return (
     <div>
-      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[500px]">
+      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[520px]">
         <div className="flex gap-1  items-center justify-between p-4">
           <div className="flex gap-2  items-center">
             <Image

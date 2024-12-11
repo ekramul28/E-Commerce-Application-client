@@ -31,11 +31,7 @@ const GoTop = () => {
 
   return (
     <div className="mt-36 md:flex">
-      {/* Rest of your component */}
       <div className="lg:w-3/4">
-        {/* Product Cards and other components */}
-
-        {/* Go to Top Button */}
         {isVisible && (
           <button
             onClick={scrollToTop}

@@ -9,7 +9,6 @@ import Container from "@/components/Container/Container";
 import MedicineCard from "./_components/MedicineCard";
 import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
-import InfiniteScrollFn from "@/utils/InfiniteScrollFn";
 import InfiniteScroll from "react-infinite-scroll-component";
 import GoTop from "@/components/GoTop/GoTop";
 
