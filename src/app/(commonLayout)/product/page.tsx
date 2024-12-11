@@ -11,6 +11,7 @@ import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
 import InfiniteScrollFn from "@/utils/InfiniteScrollFn";
 import InfiniteScroll from "react-infinite-scroll-component";
+import GoTop from "@/components/GoTop/GoTop";
 
 const Medicine = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -220,10 +221,13 @@ const Medicine = () => {
             loader={<LoadingSpinner />}
             endMessage={<p>No more products to load.</p>}
           >
-            <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen">
-              {posts.map((product: TProduct) => (
-                <MedicineCard key={product.id} product={product} />
-              ))}
+            <div>
+              <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen ">
+                {posts.map((product: TProduct) => (
+                  <MedicineCard key={product.id} product={product} />
+                ))}
+              </div>
+              <GoTop />
             </div>
           </InfiniteScroll>
 

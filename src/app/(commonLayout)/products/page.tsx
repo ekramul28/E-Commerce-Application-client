@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import MedicineCard from "../product/_components/MedicineCard";
 import { TProduct } from "@/assets/AllType";
 import InfiniteScroll from "react-infinite-scroll-component";
+import GoTop from "@/components/GoTop/GoTop";
 
 const Products = ({ searchParams }: { searchParams: any }) => {
   const productParams = Object.entries(searchParams).map(([key, value]) => ({
@@ -77,10 +78,13 @@ const Products = ({ searchParams }: { searchParams: any }) => {
           loader={<LoadingSpinner />}
           endMessage={<p>No more products to load.</p>}
         >
-          <div className="grid md:grid-cols-4 gap-2 mx-4 md:mx-0 min-h-screen mt-40">
-            {posts.map((product: TProduct) => (
-              <MedicineCard key={product.id} product={product} />
-            ))}
+          <div>
+            <div className="grid md:grid-cols-4 gap-2 mx-4 md:mx-0 min-h-screen mt-40">
+              {posts.map((product: TProduct) => (
+                <MedicineCard key={product.id} product={product} />
+              ))}
+            </div>
+            <GoTop />
           </div>
         </InfiniteScroll>
       </Container>
