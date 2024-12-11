@@ -12,7 +12,7 @@ const NavLinkBar = () => {
     { nav: "Product", route: "/product" },
     { nav: "Healthcare", route: "/healthcare" },
     { nav: "Health Blogs", route: "/healthblogs" },
-    { nav: "Offers", route: "/offers" },
+    { nav: "Orders", route: "/yourOrders" },
   ];
 
   return (

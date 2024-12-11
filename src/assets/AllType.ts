@@ -38,8 +38,9 @@ export type TCart = {
   id: string;
   product: TProduct;
   quantity: number;
+  status?: string;
   email: string;
-  discountedPrice: number;
+  offerDiscount: string;
   OfferPrice: number;
   phoneNo: string;
   createdAt?: number;

@@ -13,7 +13,7 @@ interface MedicineCardProps {
 }
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
   const follow = true;
-
+  console.log(product);
   const [addCart] = useAddCartMutation();
   const user = useAppSelector((state: RootState) => state.auth.user);
   const handleAddToCart = async (id: string) => {
@@ -31,11 +31,10 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
     } catch (error) {
       console.log(error);
     }
-    //  if(result.data)
   };
   return (
     <div>
-      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[480px]">
+      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[500px]">
         <div className="flex gap-1  items-center justify-between p-4">
           <div className="flex gap-2  items-center">
             <Image
@@ -97,6 +96,21 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
               ? `OfferDiscount: ${product?.offerDiscount}%`
               : ""}
           </p>
+
+          <div>
+            {product?.offer ? (
+              <div className="font-bold">
+                <dt className="inline">OfferPrice:</dt>
+                <dd className="inline ">
+                  {(Number(product?.offerDiscount) * Number(product?.price)) /
+                    100 -
+                    product?.price}
+                </dd>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
           <div className="flex justify-between mt-2">
             <div>
               <Link href={`/product/${product.id}`}>

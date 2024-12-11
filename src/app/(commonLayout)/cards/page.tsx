@@ -2,7 +2,7 @@
 import React from "react";
 
 import Image from "next/image";
-import { TCart, TProduct } from "@/assets/AllType";
+import { TCart } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import { toast } from "react-toastify";
 import SubTotal from "./SubTotal";
@@ -17,8 +17,18 @@ import { RootState } from "@/redux/store";
 const Cards = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
   const { data, isLoading } = useCartProductQuery(undefined);
-
+  console.log(data);
+  const cardId = data?.data?.id;
   const cartProducts = data?.data.items || [];
+
+  const PaymentData = cartProducts?.map((item: any) => ({
+    productId: item.product.id,
+    shopId: item.product.shopId,
+    cardId: item.cartId,
+  }));
+
+  console.log(PaymentData);
+
   const [deleteProductCart] = useDeleteProductCartMutation();
 
   if (isLoading) {
@@ -32,6 +42,7 @@ const Cards = () => {
       toast.success("Products removed from cart");
     }
   };
+
   return (
     <Container>
       <div className="mt-36">
@@ -65,9 +76,7 @@ const Cards = () => {
                         <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
                           <div>
                             <dt className="inline">MRP:</dt>
-                            <dd className="inline line-through">
-                              {card?.product?.price}
-                            </dd>
+                            <dd className="inline ">{card?.product?.price}</dd>
                           </div>
 
                           <div>
@@ -81,21 +90,25 @@ const Cards = () => {
                             </dd>
                           </div>
                           <div>
-                            <dt className="inline">DiscountPrice:</dt>
+                            <dt className="inline">offerDiscount:</dt>
                             <dd
                               className={`inline ${
                                 card?.product.offer ? "line-through" : ""
                               }`}
                             >
                               {" "}
-                              {card?.discountedPrice}
+                              {card?.offerDiscount}
                             </dd>
                           </div>
                           <div>
                             {card?.product.offer ? (
                               <div className="font-bold">
                                 <dt className="inline">OfferPrice:</dt>
-                                <dd className="inline ">{card?.OfferPrice}</dd>
+                                <dd className="inline ">
+                                  {(Number(card?.offerDiscount) *
+                                    Number(card?.product?.price)) /
+                                    100}
+                                </dd>
                               </div>
                             ) : (
                               ""
@@ -144,7 +157,7 @@ const Cards = () => {
                   </ul>
                 </div>
               ))}
-              <SubTotal />
+              <SubTotal cardId={cardId} PaymentData={PaymentData} />
             </div>
           </div>
         </section>

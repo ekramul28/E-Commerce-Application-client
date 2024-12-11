@@ -1,45 +1,43 @@
 import React from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { toast } from "react-toastify";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetAllProductPriceQuery } from "@/redux/fetures/cart/cartApi";
 import { usePaymentMutation } from "@/redux/fetures/payment/paymentApi";
 import { RootState } from "@/redux/store";
+import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 
-const SubTotal = () => {
-  const user = useAppSelector((state: RootState) => state.auth.user);
-
-  const { data } = useGetAllProductPriceQuery(user?.email);
+type PaymentType = {
+  productId: string;
+  shopId: string;
+  cardId: string;
+};
+const SubTotal = ({
+  cardId,
+  PaymentData,
+}: {
+  cardId: string;
+  PaymentData: PaymentType[];
+}) => {
+  const { data } = useGetAllProductPriceQuery(cardId);
   const [payment, { isLoading }] = usePaymentMutation();
   const cartTotal = data?.data;
-  console.log(cartTotal);
+
+  const { data: customer } = useGetMyProfileQuery(undefined);
+
   const handelMakePayment = async () => {
-    const stripe = await loadStripe(
-      "pk_test_51OEnEtL2pc8251OJIpKkvcI0a5dYheFy8fPTEUoGZcKf5ivh3KFiM2V2G7uP0ks4pIL9oViusE7QFpW76DP4I85100LbdwsY0M"
-    );
-    const body = {
-      email: user?.email,
-      total: cartTotal.total,
+    const data = {
+      totalPrice: cartTotal?.totalPrice,
+      user: customer?.data,
     };
 
-    const session = await payment(body);
+    const result = await payment(data).unwrap();
 
-    if (cartTotal?.totalPrice < 10) {
-      toast.error("No Product quantity ");
-      return;
-    }
+    console.log(result);
 
-    console.log(session);
-    console.log(session?.data.data.id);
-    if (stripe) {
-      const result = stripe.redirectToCheckout({
-        sessionId: session?.data.data.id,
-      });
-      console.log(result);
-    } else {
-      console.error("Stripe is not initialized.");
+    if (result.success) {
+      window.location.href = result?.data?.payment_url;
     }
   };
+
   return (
     <div>
       <div className="mt-8">
@@ -48,22 +46,22 @@ const SubTotal = () => {
             <dl className="space-y-0.5 text-sm text-gray-700">
               <div className="flex justify-between">
                 <dt>Subtotal</dt>
-                <dd>£{cartTotal?.totalPrice}</dd>
+                <dd>£{cartTotal?.subtotal}</dd>
               </div>
 
               <div className="flex justify-between">
                 <dt>VAT</dt>
-                <dd>£25</dd>
+                <dd>£{cartTotal?.vat}</dd>
               </div>
 
               <div className="flex justify-between">
                 <dt>Discount</dt>
-                <dd>-£{cartTotal?.discountPrice}</dd>
+                <dd>-£{cartTotal?.offerTotal}</dd>
               </div>
 
               <div className="flex justify-between !text-base font-medium">
                 <dt>Total</dt>
-                <dd>£{cartTotal?.total}</dd>
+                <dd>£{cartTotal?.totalPrice}</dd>
               </div>
             </dl>
 

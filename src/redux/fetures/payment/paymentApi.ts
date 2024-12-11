@@ -4,9 +4,8 @@ const PaymentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     payment: builder.mutation({
       query: (data) => {
-        console.log({ api: data });
         return {
-          url: "/Create-checkout-session",
+          url: "/payment/amrPay",
           method: "POST",
           body: data,
         };
