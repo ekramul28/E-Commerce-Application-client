@@ -31,6 +31,22 @@ const UserApi = baseApi.injectEndpoints({
         };
       },
     }),
+    UpdateUser: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/user/${id}`,
+          method: "PATCH",
+        };
+      },
+    }),
+    DeleteUser: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/user/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
     getMyProfile: builder.query({
       query: () => {
         return {
@@ -41,4 +57,9 @@ const UserApi = baseApi.injectEndpoints({
     }),
   }),
 });
-export const { useGetAllUserQuery, useGetMyProfileQuery } = UserApi;
+export const {
+  useGetAllUserQuery,
+  useGetMyProfileQuery,
+  useDeleteUserMutation,
+  useUpdateUserMutation,
+} = UserApi;

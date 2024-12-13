@@ -1,7 +1,11 @@
 "use client";
 
 import GoTop from "@/components/GoTop/GoTop";
-import { useGetAllUserQuery } from "@/redux/fetures/user/userApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUserQuery,
+  useUpdateUserMutation,
+} from "@/redux/fetures/user/userApi";
 import useDebounce from "@/utils/useDebounce";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -20,7 +24,21 @@ const UserPage = () => {
   const users = data?.data || [];
   console.log(users);
 
+  const [UpdateUser] = useUpdateUserMutation();
+  const [DeleteUser] = useDeleteUserMutation();
   // State for search and filter
+
+  const handleBlockUser = (userId: string) => {
+    // Make API call to block user by userId
+    console.log(`Blocking user with ID: ${userId}`);
+    UpdateUser(userId);
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    // Make API call to delete user by userId
+    console.log(`Deleting user with ID: ${userId}`);
+    DeleteUser(userId);
+  };
 
   return (
     <div className="mt-20 md:mt-2 w-full h-full">
@@ -68,6 +86,12 @@ const UserPage = () => {
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Status
               </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                Block User
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                Delete User
+              </th>
             </tr>
           </thead>
 
@@ -105,14 +129,32 @@ const UserPage = () => {
                       {userDetails?.contactNumber || "N/A"}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">
-                      <button
+                      <p
                         className={`block w-full px-4 py-2 ${
-                          user?.status === "BLOCKED" && "bg-red-500"
+                          user?.status === "BLOCKED" && "text-red-500"
                         } ${
                           user?.status === "DELETED" && "bg-lime-600-500"
-                        } bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700`}
+                        } text-blue-600  text-sm font-medium rounded-md hover:text-blue-700`}
                       >
                         {user?.status}
+                      </p>
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2">
+                      {/* Block User Button */}
+                      <button
+                        onClick={() => handleBlockUser(user.id)} // Your function to block user
+                        className="px-4 py-2 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600"
+                      >
+                        Block
+                      </button>
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2">
+                      {/* Delete User Button */}
+                      <button
+                        onClick={() => handleDeleteUser(user.id)} // Your function to delete user
+                        className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600"
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>
