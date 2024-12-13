@@ -1,9 +1,6 @@
 "use client";
-
-import { useCreateUserMutation } from "@/redux/fetures/Auth/authApi";
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-toastify"; // For better alerts, ensure this package is installed.
 
 interface FormData {
   name: string;
@@ -14,43 +11,22 @@ interface FormData {
 }
 
 const InputForm: React.FC = () => {
-  const [registerError, setRegisterError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormData>();
 
-  const [createUser, { isLoading }] = useCreateUserMutation();
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log("Form Data:", data);
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      // Construct form data for API submission
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("password", data.password);
-      if (data.contactNumber) {
-        formData.append("contactNumber", data.contactNumber);
-      }
-      if (data.profilePhoto?.[0]) {
-        formData.append("file", data.profilePhoto[0]);
-      }
-
-      // Call API to create user
-      const userCreate = await createUser(formData).unwrap();
-
-      if (userCreate?.success) {
-        toast.success("Registered successfully");
-        reset(); // Clear form after successful registration
-      } else {
-        setRegisterError(userCreate?.message || "An error occurred");
-      }
-    } catch (error: any) {
-      setRegisterError(error?.data?.message || "An error occurred");
-      toast.error("Registration failed");
+    // Access uploaded file for profilePhoto
+    const profilePhotoFile = data.profilePhoto?.[0];
+    if (profilePhotoFile) {
+      console.log("Uploaded file:", profilePhotoFile.name);
     }
+
+    alert("Form submitted successfully");
   };
 
   return (
@@ -58,9 +34,7 @@ const InputForm: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md"
     >
-      <h2 className="text-xl font-semibold text-gray-800">
-        Register as a Customer
-      </h2>
+      <h2 className="text-xl font-semibold text-gray-800">Create Vendor</h2>
 
       {/* Name Field */}
       <div>
@@ -159,16 +133,11 @@ const InputForm: React.FC = () => {
         />
       </div>
 
-      {/* Error Message */}
-      {registerError && (
-        <p className="text-red-500 text-sm mt-2">{registerError}</p>
-      )}
-
       <button
         type="submit"
         className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
       >
-        {isLoading ? "Submitting..." : "Submit"}
+        Submit
       </button>
     </form>
   );

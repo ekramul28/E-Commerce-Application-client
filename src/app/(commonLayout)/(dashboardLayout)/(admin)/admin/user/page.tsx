@@ -1,12 +1,54 @@
+"use client";
+
+import GoTop from "@/components/GoTop/GoTop";
+import { useGetAllUserQuery } from "@/redux/fetures/user/userApi";
+import useDebounce from "@/utils/useDebounce";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 const UserPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 3000);
+
+  const params = [
+    { name: "searchTerm", value: debouncedSearchTerm },
+    { name: "role", value: roleFilter },
+  ];
+
+  const { data } = useGetAllUserQuery(params);
+  const users = data?.data || [];
+  console.log(users);
+
+  // State for search and filter
+
   return (
-    <div>
+    <div className="mt-20 md:mt-2 w-full h-full">
+      {/* Search and Filter Section */}
+      <div className="flex items-center gap-4 mb-4">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full max-w-xs px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        />
+        <select
+          value={roleFilter}
+          onChange={(e) => setRoleFilter(e.target.value)}
+          className="px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          <option value="">All Roles</option>
+          <option value="ADMIN">Admin</option>
+          <option value="CUSTOMER">Customer</option>
+          <option value="VENDOR">Vendor</option>
+        </select>
+      </div>
+
+      {/* Users Table */}
       <div className="overflow-x-auto rounded-lg border border-gray-200">
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-          <thead className="ltr:text-left rtl:text-right">
+          <thead className="bg-gray-50">
             <tr>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Image
@@ -21,110 +63,72 @@ const UserPage = () => {
                 Role
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Salary
+                Contact Number
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Admin
+                Status
               </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            <tr>
-              <td className="whitespace-nowrap px-4 py-2">
-                <div className="relative w-10 h-10">
-                  <Image
-                    src="https://i.ibb.co/j8xzTdT/Whats-App-Image-2024-03-18-at-22-31-31-fa796e6e.jpg"
-                    alt="John Doe"
-                    className="rounded-full"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                John Doe
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                mdekramulhassan168@gmail.com
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                Web Developer
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                $120,000
-              </td>
-              <td className="whitespace-nowrap px-4 py-2">
-                <button className="block w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700">
-                  Admin
-                </button>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="whitespace-nowrap px-4 py-2">
-                <div className="relative w-10 h-10">
-                  <Image
-                    src="https://i.ibb.co/j8xzTdT/Whats-App-Image-2024-03-18-at-22-31-31-fa796e6e.jpg"
-                    alt="Jane Doe"
-                    className="rounded-full"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Jane Doe
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                04/11/1980
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                Web Designer
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                $100,000
-              </td>
-              <td className="whitespace-nowrap px-4 py-2">
-                <button className="block w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700">
-                  Admin
-                </button>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="whitespace-nowrap px-4 py-2">
-                <div className="relative w-10 h-10">
-                  <Image
-                    src="https://i.ibb.co/j8xzTdT/Whats-App-Image-2024-03-18-at-22-31-31-fa796e6e.jpg"
-                    alt="Gary Barlow"
-                    className="rounded-full"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Gary Barlow
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                24/05/1995
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                Singer
-              </td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                $20,000
-              </td>
-              <td className="whitespace-nowrap px-4 py-2">
-                <button className="block w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700">
-                  Admin
-                </button>
-              </td>
-            </tr>
+            {users?.length > 0 ? (
+              users?.map((user: any) => {
+                const userDetails =
+                  user.customer || user.admin || user.vendor || {};
+                return (
+                  <tr key={user.id}>
+                    <td className="whitespace-nowrap px-4 py-2">
+                      <div className="relative w-10 h-10">
+                        <Image
+                          src={
+                            userDetails?.profilePhoto ||
+                            "https://via.placeholder.com/150"
+                          }
+                          alt={userDetails?.name || "User"}
+                          className="rounded-full"
+                          width={40}
+                          height={40}
+                        />
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                      {userDetails?.name || "N/A"}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {user?.email || "N/A"}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {user?.role || "N/A"}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {userDetails?.contactNumber || "N/A"}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2">
+                      <button
+                        className={`block w-full px-4 py-2 ${
+                          user?.status === "BLOCKED" && "bg-red-500"
+                        } ${
+                          user?.status === "DELETED" && "bg-lime-600-500"
+                        } bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700`}
+                      >
+                        {user?.status}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={6} className="text-center py-4">
+                  No users found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
+      <GoTop></GoTop>
     </div>
   );
 };
