@@ -11,6 +11,50 @@ const ShopApi = baseApi.injectEndpoints({
         };
       },
     }),
+    GetAllShop: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        // Append each parameter to the URLSearchParams object
+        if (args && Array.isArray(args)) {
+          args.forEach((item) => {
+            if (
+              item.value !== undefined &&
+              item.value !== null &&
+              item.value !== "" &&
+              !(
+                Array.isArray(item.value) &&
+                item.value.every((val: number) => val === 0)
+              )
+            ) {
+              params.append(item.name, String(item.value)); // Ensure value is a string
+            }
+          });
+        }
+        return {
+          url: "/shop",
+          method: "GET",
+          params: params,
+        };
+      },
+    }),
+
+    UpdateShop: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/shop/${id}`,
+          method: "PATCH",
+        };
+      },
+    }),
+    DeleteShop: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/shop/${id}`,
+          method: "DELETE",
+        };
+      },
+    }),
     getShopByVendor: builder.query({
       query: (id) => {
         return {
@@ -21,4 +65,10 @@ const ShopApi = baseApi.injectEndpoints({
     }),
   }),
 });
-export const { useCreateShopMutation, useGetShopByVendorQuery } = ShopApi;
+export const {
+  useCreateShopMutation,
+  useGetShopByVendorQuery,
+  useGetAllShopQuery,
+  useDeleteShopMutation,
+  useUpdateShopMutation,
+} = ShopApi;

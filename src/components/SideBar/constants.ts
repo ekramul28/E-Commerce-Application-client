@@ -16,4 +16,5 @@ export const adminLinks = [
   { href: "/admin/user", label: "AllUser" },
   { href: "/admin/addCategory", label: "addCategory" },
   { href: "/admin/CreateVendor", label: "CreateVendor" },
+  { href: "/admin/allShop", label: "AllShop" },
 ];
