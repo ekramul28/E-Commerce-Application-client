@@ -9,6 +9,7 @@ export const vendorLinks = [
   { href: "/vendor/order", label: "AllOrder" },
   { href: "/vendor/createShop", label: "CreateShop" },
   { href: "/vendor/addProduct", label: "AddProduct" },
+  { href: "/vendor/yourShop", label: "MyShop" },
 ];
 
 export const adminLinks = [

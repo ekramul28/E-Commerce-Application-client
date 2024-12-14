@@ -16,7 +16,6 @@ const ProfileDropdown = ({
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  console.log(role);
   return (
     <div className="relative">
       <button
@@ -38,21 +37,33 @@ const ProfileDropdown = ({
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
-          <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-            Profile
-          </button>
           {role === "ADMIN" ? (
-            <Link href={"/admin"}>
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                Dashboard
-              </button>
-            </Link>
+            <div>
+              <Link href={"/admin"}>
+                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Dashboard
+                </button>
+              </Link>
+
+              <Link href={"/admin/yourShop"}>
+                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Profile
+                </button>
+              </Link>
+            </div>
           ) : role === "VENDOR" ? (
-            <Link href={"/vendor"}>
-              <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                Dashboard
-              </button>
-            </Link>
+            <div>
+              <Link href={"/vendor"}>
+                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Dashboard
+                </button>
+              </Link>
+              <Link href={"/vendor/yourShop"}>
+                <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Profile
+                </button>
+              </Link>
+            </div>
           ) : (
             <Link href={"/customer"}>
               <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
