@@ -25,34 +25,37 @@ const InputForm: React.FC = () => {
   const [createUser, { isLoading }] = useCreateUserMutation();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const formData = new FormData();
+    console.log("this is data", data);
+    // Append form data
+
+    const VendorData = {
+      password: data.password,
+      customer: {
+        name: data.name,
+        email: data.email,
+        contactNumber: data.contactNumber,
+      },
+    };
+
+    formData.append("data", JSON.stringify(VendorData));
+
+    const profilePhotoFile = data.profilePhoto?.[0];
+    if (profilePhotoFile) {
+      formData.append("file", profilePhotoFile);
+    }
+
     try {
-      // Construct form data for API submission
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("password", data.password);
-      if (data.contactNumber) {
-        formData.append("contactNumber", data.contactNumber);
-      }
-      if (data.profilePhoto?.[0]) {
-        formData.append("file", data.profilePhoto[0]);
-      }
-
-      // Call API to create user
-      const userCreate = await createUser(formData).unwrap();
-
-      if (userCreate?.success) {
-        toast.success("Registered successfully");
-        reset(); // Clear form after successful registration
-      } else {
-        setRegisterError(userCreate?.message || "An error occurred");
-      }
-    } catch (error: any) {
-      setRegisterError(error?.data?.message || "An error occurred");
-      toast.error("Registration failed");
+      // Call the mutation
+      const result = await createUser(formData).unwrap();
+      console.log(result);
+      reset();
+      toast.success(" Created successful");
+    } catch (err) {
+      console.error("Error creating vendor:", err);
+      toast.error("An error occurred while submitting the form.");
     }
   };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

@@ -1,6 +1,9 @@
 "use client";
+
+import { useCreateVendorMutation } from "@/redux/fetures/Vendor/vendorApi";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -15,18 +18,41 @@ const InputForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("Form Data:", data);
+  const [CreateVendor, { isLoading, isError, error }] =
+    useCreateVendorMutation();
 
-    // Access uploaded file for profilePhoto
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const formData = new FormData();
+
+    const VendorData = {
+      password: data.password,
+      vendor: {
+        name: data.name,
+        email: data.email,
+        contactNumber: data.contactNumber,
+      },
+    };
+
+    formData.append("data", JSON.stringify(VendorData));
+
     const profilePhotoFile = data.profilePhoto?.[0];
     if (profilePhotoFile) {
-      console.log("Uploaded file:", profilePhotoFile.name);
+      formData.append("file", profilePhotoFile);
     }
 
-    alert("Form submitted successfully");
+    try {
+      // Call the mutation
+      const result = await CreateVendor(formData).unwrap();
+      console.log(result);
+      reset();
+      toast.success("Vendor Created");
+    } catch (err) {
+      console.error("Error creating vendor:", err);
+      toast.error("An error occurred while submitting the form.");
+    }
   };
 
   return (
@@ -136,9 +162,15 @@ const InputForm: React.FC = () => {
       <button
         type="submit"
         className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        disabled={isLoading}
       >
-        Submit
+        {isLoading ? "Submitting..." : "Submit"}
       </button>
+      {isError && (
+        <p className="text-red-500 text-sm mt-2">
+          {error?.message || "Something went wrong"}
+        </p>
+      )}
     </form>
   );
 };

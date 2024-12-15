@@ -33,7 +33,7 @@ const LoginPage = () => {
         setLoginError(result?.error?.data?.message);
       }
     } catch (error) {
-      setLoginError((error as any).data.message);
+      setLoginError((error as any)?.data?.message);
     }
   };
 

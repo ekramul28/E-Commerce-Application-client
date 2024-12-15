@@ -1,6 +1,12 @@
 import { TProduct } from "@/assets/AllType";
 import Button from "@/components/Shared/Button";
 import { useAddCartMutation } from "@/redux/fetures/cart/cartApi";
+import {
+  useFollowMutation,
+  useGetIsFollowQuery,
+  useUnFollowMutation,
+} from "@/redux/fetures/Review/reviewApi";
+import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import Image from "next/image";
@@ -10,7 +16,17 @@ interface MedicineCardProps {
   product: TProduct;
 }
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
-  const follow = true;
+  const { data: ProfileData } = useGetMyProfileQuery(undefined);
+  const customerId = ProfileData?.data?.id;
+
+  const getFollowData = {
+    shopId: product.shop.id,
+    customerId: customerId,
+  };
+
+  const { data: followData, isLoading: isFollowLoading } =
+    useGetIsFollowQuery(getFollowData);
+  const follow = followData?.data?.isFollowing;
   const [addCart] = useAddCartMutation();
   const user = useAppSelector((state: RootState) => state.auth.user);
   const handleAddToCart = async (id: string) => {
@@ -29,6 +45,23 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
       console.log(error);
     }
   };
+
+  const [Follow] = useFollowMutation();
+  const [UnFollow] = useUnFollowMutation();
+
+  const handelFollow = async () => {
+    const result = await Follow(getFollowData).unwrap();
+    console.log(result);
+  };
+  const handelUnFollow = async () => {
+    const result = await UnFollow(getFollowData).unwrap();
+    console.log(result);
+  };
+
+  if (!ProfileData || isFollowLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[520px]">
@@ -48,11 +81,17 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
           </div>
           <div>
             {follow ? (
-              <Button className=" p-2 font-semibold bg-blue-500 text-white ">
+              <Button
+                onClick={handelUnFollow}
+                className=" p-2 font-semibold bg-blue-500 text-white "
+              >
                 UnFollow
               </Button>
             ) : (
-              <Button className=" p-2 font-semibold bg-blue-500 text-white ">
+              <Button
+                onClick={handelFollow}
+                className=" p-2 font-semibold bg-blue-500 text-white "
+              >
                 Follow
               </Button>
             )}
