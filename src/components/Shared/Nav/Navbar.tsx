@@ -3,15 +3,12 @@ import Image from "next/image";
 import Input from "../input/input";
 import NavLinkBar from "./NavLinkBar";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import ProfileDropdown from "@/components/ProfileDropdown/ProfileDrop";
 import Badge from "@/components/TotalCardCount/TotalCardCount";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import {
-  useCartProductQuery,
-  useGetAllProductPriceQuery,
-} from "@/redux/fetures/cart/cartApi";
+import { useCartProductQuery } from "@/redux/fetures/cart/cartApi";
 import { logout } from "@/redux/fetures/Auth/authSlice";
 
 const Navbar = () => {
@@ -153,7 +150,7 @@ const Navbar = () => {
             </div>
 
             {user?.role == "CUSTOMER" && (
-              <div>
+              <div className="flex gap-1">
                 <div>
                   <Link href={"/yourOrders"}>
                     <p className="md:font-medium md:text-sm font-normal text-xs flex items-center md:gap-2">

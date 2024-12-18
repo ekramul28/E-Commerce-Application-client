@@ -5,7 +5,8 @@ import {
   useFollowMutation,
   useGetIsFollowQuery,
   useUnFollowMutation,
-} from "@/redux/fetures/Review/reviewApi";
+} from "@/redux/fetures/follow&unFollow/followApi";
+
 import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
@@ -51,11 +52,15 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
 
   const handelFollow = async () => {
     const result = await Follow(getFollowData).unwrap();
-    console.log(result);
+    if (result.success) {
+      toast.success("shop follow successfully");
+    }
   };
   const handelUnFollow = async () => {
     const result = await UnFollow(getFollowData).unwrap();
-    console.log(result);
+    if (result.success) {
+      toast.error("shop unFollow successfully");
+    }
   };
 
   if (!ProfileData || isFollowLoading) {
@@ -71,28 +76,28 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
               alt=""
               height={40}
               width={40}
-              src={product?.shop.logo}
+              src={product?.shop?.logo}
               className="w-[50px] h-[50px] rounded-full object-cover cursor-pointer"
             />
 
             <h1 className="font-bold text-sm cursor-pointer hover:underline ">
-              {product.shop.name}
+              {product?.shop?.name}
             </h1>
           </div>
           <div>
             {follow ? (
               <Button
                 onClick={handelUnFollow}
-                className=" p-2 font-semibold bg-blue-500 text-white "
+                className=" p-2 font-semibold bg-red-500 text-white "
               >
-                UnFollow
+                UnFollow shop
               </Button>
             ) : (
               <Button
                 onClick={handelFollow}
                 className=" p-2 font-semibold bg-blue-500 text-white "
               >
-                Follow
+                Follow shop
               </Button>
             )}
           </div>
