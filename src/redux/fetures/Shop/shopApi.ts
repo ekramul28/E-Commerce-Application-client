@@ -10,6 +10,7 @@ const ShopApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["shop"],
     }),
     GetAllShop: builder.query({
       query: (args) => {
@@ -37,6 +38,7 @@ const ShopApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["shop"],
     }),
 
     UpdateShop: builder.mutation({

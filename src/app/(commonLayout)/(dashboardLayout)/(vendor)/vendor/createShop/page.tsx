@@ -12,7 +12,9 @@ const CreateShop = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [createShop] = useCreateShopMutation();
+
+  const [createShop, { isLoading }] = useCreateShopMutation();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { data } = useGetMyProfileQuery(undefined);
   const vendorId = data?.data?.id;
@@ -118,7 +120,7 @@ const CreateShop = () => {
             type="submit"
             className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Submit
+            {isLoading ? "submitting" : "Submit"}
           </button>
         </div>
       </form>

@@ -32,7 +32,7 @@ const Navbar = () => {
     // Add logic to handle search functionality
   };
   return (
-    <div className={`fixed top-0 left-0 w-full z-50  bg-white shadow-lg `}>
+    <div className={`fixed top-0 left-0 w-full z-20  bg-white shadow-lg `}>
       <div className=" h-12 md:h-20 flex justify-center items-center ">
         <div className="container mx-auto  py-2 flex justify-between items-center">
           <div className="text-2xl font-bold text-black flex items-center">

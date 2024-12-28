@@ -64,12 +64,12 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
   };
 
   if (!ProfileData || isFollowLoading) {
-    return <div>Loading...</div>;
+    <div>Loading...</div>;
   }
 
   return (
     <div>
-      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[520px]">
+      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[550px]">
         <div className="flex gap-1  items-center justify-between p-4">
           <div className="flex gap-2  items-center">
             <Image
@@ -90,14 +90,14 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
                 onClick={handelUnFollow}
                 className=" p-2 font-semibold bg-red-500 text-white "
               >
-                UnFollow shop
+                UnFollow
               </Button>
             ) : (
               <Button
                 onClick={handelFollow}
                 className=" p-2 font-semibold bg-blue-500 text-white "
               >
-                Follow shop
+                Follow
               </Button>
             )}
           </div>

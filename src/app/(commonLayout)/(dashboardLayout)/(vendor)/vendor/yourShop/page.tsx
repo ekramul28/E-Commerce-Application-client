@@ -20,8 +20,9 @@ const MyShop = () => {
   const router = useRouter(); // Use Next.js router
   const { data: user } = useGetMyProfileQuery(undefined);
   const userId = user?.data?.id;
+  console.log(userId);
   const { data: shop, isLoading, isError } = useGetShopByVendorQuery(userId);
-
+  console.log(shop);
   const [editMode, setEditMode] = useState(false);
   const [shopDetails, setShopDetails] = useState({
     name: shop?.data?.name || "",
@@ -49,13 +50,13 @@ const MyShop = () => {
             <Image
               height={100}
               width={100}
-              src={shop.data.logo}
+              src={shop?.data?.logo}
               alt="Shop Logo"
               className="w-24 h-24 rounded-md object-cover"
             />
             <div>
-              <h3 className="text-lg font-semibold">{shop.data.name}</h3>
-              <p>{shop.data.description}</p>
+              <h3 className="text-lg font-semibold">{shop?.data?.name}</h3>
+              <p>{shop?.data?.description}</p>
               <Button className="mt-2" onClick={() => setEditMode(true)}>
                 Edit Shop Details
               </Button>
@@ -81,7 +82,7 @@ const MyShop = () => {
         {shop?.data?.products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {shop?.data?.products.map((product: any) => (
-              <Card key={product.id}>
+              <Card key={product?.id}>
                 <CardHeader>
                   <Image
                     height={100}
@@ -102,7 +103,7 @@ const MyShop = () => {
                   <Button
                     variant="secondary"
                     onClick={() =>
-                      router.push(`/shop/products/edit/${product.id}`)
+                      router.push(`/shop/products/edit/${product?.id}`)
                     }
                   >
                     Edit

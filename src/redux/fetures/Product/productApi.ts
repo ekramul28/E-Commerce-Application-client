@@ -10,6 +10,7 @@ const ProductApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["product"],
     }),
     getAllProductId: builder.query({
       query: (args) => {
@@ -42,6 +43,7 @@ const ProductApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["product"],
     }),
 
     getProductById: builder.query({
@@ -51,6 +53,7 @@ const ProductApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["product"],
     }),
   }),
 });
