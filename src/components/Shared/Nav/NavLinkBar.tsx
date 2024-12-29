@@ -14,7 +14,11 @@ const NavLinkBar = () => {
       route: "/healthcare",
     },
     {
-      nav: "details",
+      nav: "Shops",
+      route: "/shoppage",
+    },
+    {
+      nav: "Details",
       route: "",
       megaMenu: [
         { label: "Category 1", links: [{ name: "Link 1", route: "/link1" }] },
@@ -35,7 +39,7 @@ const NavLinkBar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md p-4 border-t-2">
+    <nav className="bg-white shadow-md p-2 border-t-2">
       <div className="container mx-auto flex justify-center items-center font-medium text-base">
         <ul className="flex gap-4">
           {pages.map((page) => (
@@ -54,7 +58,7 @@ const NavLinkBar = () => {
                 {page.nav}
               </button>
               {page.megaMenu && openMenu === page.nav && (
-                <div className="absolute left-0 top-6 mt-2 w-72 bg-white shadow-lg p-4 grid grid-cols-2 gap-4 z-10">
+                <div className="absolute left-0 top-6 mt-2 w-72 bg-white shadow-lg p-4 grid grid-cols-2 gap-4 z-10 rounded-lg border-t-2">
                   {page.megaMenu.map((category) => (
                     <div key={category.label}>
                       <h3 className="font-semibold mb-2">{category.label}</h3>
