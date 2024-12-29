@@ -17,6 +17,7 @@ export type TProduct = {
 export type shop = {
   id: string;
   logo: string;
+  vendorId: string;
   name: string;
 };
 

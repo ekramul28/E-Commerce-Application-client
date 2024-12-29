@@ -19,7 +19,9 @@ interface MedicineCardProps {
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
   const { data: ProfileData } = useGetMyProfileQuery(undefined);
   const customerId = ProfileData?.data?.id;
+  console.log(product);
 
+  console.log(product?.shop?.vendorId);
   const getFollowData = {
     shopId: product.shop.id,
     customerId: customerId,
@@ -72,17 +74,20 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
       <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[550px]">
         <div className="flex gap-1  items-center justify-between p-4">
           <div className="flex gap-2  items-center">
-            <Image
-              alt=""
-              height={40}
-              width={40}
-              src={product?.shop?.logo}
-              className="w-[50px] h-[50px] rounded-full object-cover cursor-pointer"
-            />
-
-            <h1 className="font-bold text-sm cursor-pointer hover:underline ">
-              {product?.shop?.name}
-            </h1>
+            <Link href={`shoppage/${product?.shop?.vendorId}`}>
+              <Image
+                alt=""
+                height={40}
+                width={40}
+                src={product?.shop?.logo}
+                className="w-[50px] h-[50px] rounded-full object-cover cursor-pointer"
+              />
+            </Link>
+            <Link href={`shoppage/${product?.shop?.vendorId}`}>
+              <h1 className="font-bold text-sm cursor-pointer hover:underline ">
+                {product?.shop?.name}
+              </h1>
+            </Link>
           </div>
           <div>
             {follow ? (

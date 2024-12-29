@@ -55,7 +55,7 @@ const CreateShop = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md mt-6">
+    <div className="border-2  mx-auto p-4 bg-white rounded-lg shadow-md mt-20">
       <h2 className="text-xl font-bold mb-6">Create Shop</h2>
       <form
         onSubmit={handleSubmit}
