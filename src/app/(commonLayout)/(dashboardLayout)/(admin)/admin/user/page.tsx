@@ -1,6 +1,7 @@
 "use client";
 
 import GoTop from "@/components/GoTop/GoTop";
+import LoadingSpinner from "@/components/Loding/Loding";
 import {
   useDeleteUserMutation,
   useGetAllUserQuery,
@@ -20,9 +21,8 @@ const UserPage = () => {
     { name: "role", value: roleFilter },
   ];
 
-  const { data } = useGetAllUserQuery(params);
+  const { data, isLoading } = useGetAllUserQuery(params);
   const users = data?.data || [];
-  console.log(users);
 
   const [UpdateUser] = useUpdateUserMutation();
   const [DeleteUser] = useDeleteUserMutation();
@@ -41,7 +41,7 @@ const UserPage = () => {
   };
 
   return (
-    <div className="mt-20 md:mt-2 w-full h-full">
+    <div className="mt-20 md:mt-2 w-full  h-screen">
       {/* Search and Filter Section */}
       <div className="flex items-center gap-4 mb-4">
         <input
@@ -96,7 +96,9 @@ const UserPage = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {users?.length > 0 ? (
+            {isLoading ? (
+              <LoadingSpinner size={40}></LoadingSpinner>
+            ) : users?.length > 0 ? (
               users?.map((user: any) => {
                 const userDetails =
                   user.customer || user.admin || user.vendor || {};

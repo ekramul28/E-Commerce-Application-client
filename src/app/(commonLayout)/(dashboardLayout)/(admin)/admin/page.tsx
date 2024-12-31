@@ -1,12 +1,80 @@
+"use client";
 import React from "react";
+import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement,
+} from "chart.js";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/fetures/Auth/authSlice";
+import { useRouter } from "next/navigation";
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement
+);
 
 const AdminDashboard = () => {
+  // Revenue Over Time Line Chart Data
+  const revenueData = {
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [
+      {
+        label: "Revenue ($)",
+        data: [12000, 15000, 13000, 17000, 18000, 21000],
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  // Order Statistics Bar Chart Data
+  const orderData = {
+    labels: ["New", "Shipped", "Delivered", "Cancelled"],
+    datasets: [
+      {
+        label: "Orders",
+        data: [200, 120, 300, 50],
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const handelLogout = () => {
+    dispatch(logout());
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       {/* Header */}
       <header className="bg-white shadow-md p-4 mb-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-        <button className="bg-red-500 text-white px-4 py-2 rounded">
+        <button
+          onClick={handelLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded"
+        >
           Logout
         </button>
       </header>
@@ -17,19 +85,34 @@ const AdminDashboard = () => {
         <div className="col-span-1 lg:col-span-3 grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="bg-white p-4 shadow-md rounded-lg">
             <h3 className="text-gray-500">Total Users</h3>
-            <p className="text-2xl font-bold">1,234</p>
+            <p className="text-2xl font-bold">6</p>
           </div>
           <div className="bg-white p-4 shadow-md rounded-lg">
             <h3 className="text-gray-500">Active Vendors</h3>
-            <p className="text-2xl font-bold">87</p>
+            <p className="text-2xl font-bold">3</p>
           </div>
           <div className="bg-white p-4 shadow-md rounded-lg">
             <h3 className="text-gray-500">Orders Today</h3>
-            <p className="text-2xl font-bold">56</p>
+            <p className="text-2xl font-bold">6</p>
           </div>
           <div className="bg-white p-4 shadow-md rounded-lg">
             <h3 className="text-gray-500">Revenue</h3>
-            <p className="text-2xl font-bold">$18,750</p>
+            <p className="text-2xl font-bold">$1,750</p>
+          </div>
+        </div>
+
+        {/* Charts Section */}
+        <div className="col-span-1 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Revenue Over Time Chart */}
+          <div className="bg-white p-4 shadow-md rounded-lg">
+            <h3 className="text-xl font-bold mb-4">Revenue Over Time</h3>
+            <Line data={revenueData} />
+          </div>
+
+          {/* Order Statistics Chart */}
+          <div className="bg-white p-4 shadow-md rounded-lg">
+            <h3 className="text-xl font-bold mb-4">Order Statistics</h3>
+            <Bar data={orderData} />
           </div>
         </div>
 

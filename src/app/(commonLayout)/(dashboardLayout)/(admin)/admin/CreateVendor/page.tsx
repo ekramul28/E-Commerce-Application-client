@@ -58,7 +58,7 @@ const InputForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md"
+      className="space-y-6 mt-8 mx-auto p-6 bg-white rounded-lg shadow-md"
     >
       <h2 className="text-xl font-semibold text-gray-800">Create Vendor</h2>
 
