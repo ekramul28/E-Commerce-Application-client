@@ -1,5 +1,4 @@
 import {
-  FaUser,
   FaCog,
   FaShoppingCart,
   FaShopify,
@@ -11,7 +10,7 @@ import { MdAdd } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 
 export const userLinks = [
-  { href: "/profile", label: "Posts", icon: <FaUser /> },
+  { href: "/profile", label: "Posts", icon: <CgProfile /> },
   {
     href: "/profile/received-claim-requests",
     label: "Received Claim Request",
@@ -26,6 +25,7 @@ export const vendorLinks = [
   { href: "/vendor/createShop", label: "Create Shop", icon: <FaShopify /> },
   { href: "/vendor/addProduct", label: "Add Product", icon: <MdAdd /> },
   { href: "/vendor/yourShop", label: "My Shop", icon: <FaShopify /> },
+  { href: "/profile", label: "Profile", icon: <CgProfile /> },
 ];
 
 export const adminLinks = [
@@ -34,5 +34,5 @@ export const adminLinks = [
   { href: "/admin/addCategory", label: "Add Category", icon: <MdAdd /> },
   { href: "/admin/CreateVendor", label: "Create Vendor", icon: <FaShopify /> },
   { href: "/admin/allShop", label: "All Shops", icon: <FaBoxOpen /> },
-  { href: "/admin/profile", label: "Profile", icon: <CgProfile /> },
+  { href: "/profile", label: "Profile", icon: <CgProfile /> },
 ];

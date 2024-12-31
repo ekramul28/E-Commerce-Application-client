@@ -6,6 +6,7 @@ import {
 } from "@/redux/fetures/user/userApi";
 import React from "react";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const AdminProfile = () => {
   const { data, isLoading, error } = useGetMyProfileQuery(undefined);
@@ -86,8 +87,10 @@ const AdminProfile = () => {
       <div className="flex items-center space-x-6">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
           {profile?.profilePhoto ? (
-            <img
-              src={`/uploads/${profile.profilePhoto}`}
+            <Image
+              height={200}
+              width={200}
+              src={`${profile.profilePhoto}`}
               alt={`${profile.name}'s profile`}
               className="object-cover w-full h-full"
             />

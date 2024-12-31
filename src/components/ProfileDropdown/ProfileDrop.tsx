@@ -45,7 +45,7 @@ const ProfileDropdown = ({
                 </button>
               </Link>
 
-              <Link href={"/admin/yourShop"}>
+              <Link href={"/profile"}>
                 <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Profile
                 </button>
@@ -58,7 +58,7 @@ const ProfileDropdown = ({
                   Dashboard
                 </button>
               </Link>
-              <Link href={"/vendor/yourShop"}>
+              <Link href={"/profile"}>
                 <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Profile
                 </button>

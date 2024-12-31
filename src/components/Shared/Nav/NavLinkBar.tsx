@@ -71,8 +71,8 @@ const NavLinkBar = () => {
                     >
                       {/* Category Image */}
                       <Image
-                        height={20}
-                        width={20}
+                        height={200}
+                        width={200}
                         src={category.icon}
                         alt={`${category.label} Icon`}
                         className="w-10 h-10 object-cover rounded-md"

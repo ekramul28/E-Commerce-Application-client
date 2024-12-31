@@ -1,11 +1,77 @@
+"use client";
 import React from "react";
+import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/fetures/Auth/authSlice";
+import { useRouter } from "next/navigation";
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const VendorDashboard = () => {
+  // Sample data for charts
+  const salesData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    datasets: [
+      {
+        label: "Sales ($)",
+        data: [1000, 1200, 1400, 1700, 1500, 1800, 2100],
+        fill: false,
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const orderStatusData = {
+    labels: ["Completed", "Pending", "Cancelled"],
+    datasets: [
+      {
+        label: "Orders",
+        data: [50, 30, 10], // Example data
+        backgroundColor: ["#4caf50", "#ffeb3b", "#f44336"],
+        borderColor: ["#4caf50", "#ffeb3b", "#f44336"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const handelLogout = () => {
+    dispatch(logout());
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <header className="bg-white shadow-md p-4 mb-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Vendor Dashboard</h1>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button
+          onClick={handelLogout}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
           Logout
         </button>
       </header>
@@ -19,11 +85,11 @@ const VendorDashboard = () => {
           </div>
           <div className="bg-white p-4 shadow-md rounded-lg">
             <h3 className="text-gray-500">Pending Orders</h3>
-            <p className="text-2xl font-bold">5</p>
+            <p className="text-2xl font-bold">2</p>
           </div>
           <div className="bg-white p-4 shadow-md rounded-lg">
             <h3 className="text-gray-500">Active Products</h3>
-            <p className="text-2xl font-bold">25</p>
+            <p className="text-2xl font-bold">4</p>
           </div>
         </div>
 
@@ -41,6 +107,18 @@ const VendorDashboard = () => {
               🛠 Maintenance scheduled for this weekend.
             </li>
           </ul>
+        </div>
+
+        {/* Sales Chart Section */}
+        <div className="col-span-1 lg:col-span-2 bg-white p-4 shadow-md rounded-lg">
+          <h2 className="text-xl font-bold mb-4">Sales Overview</h2>
+          <Line data={salesData} />
+        </div>
+
+        {/* Order Status Chart Section */}
+        <div className="col-span-1 lg:col-span-2 bg-white p-4 shadow-md rounded-lg">
+          <h2 className="text-xl font-bold mb-4">Order Status Distribution</h2>
+          <Bar data={orderStatusData} />
         </div>
 
         {/* Recent Orders Section */}
