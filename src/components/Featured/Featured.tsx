@@ -8,19 +8,21 @@ const Featured = () => {
   const cardWidth = 270;
   const cardsPerView = 3;
   const maxScrollIndex = Math.max(0, FeaturedData.length - cardsPerView);
-
-  // Explicitly type the ref as a reference to an HTMLDivElement
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToIndex = (index: number) => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        left: index * cardWidth,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const scrollLeft = () => {
     setScrollIndex((prevIndex) => {
       const newIndex = Math.max(prevIndex - 1, 0);
-      if (containerRef.current) {
-        containerRef.current.scrollTo({
-          left: newIndex * cardWidth,
-          behavior: "smooth",
-        });
-      }
+      scrollToIndex(newIndex);
       return newIndex;
     });
   };
@@ -28,12 +30,7 @@ const Featured = () => {
   const scrollRight = () => {
     setScrollIndex((prevIndex) => {
       const newIndex = Math.min(prevIndex + 1, maxScrollIndex);
-      if (containerRef.current) {
-        containerRef.current.scrollTo({
-          left: newIndex * cardWidth,
-          behavior: "smooth",
-        });
-      }
+      scrollToIndex(newIndex);
       return newIndex;
     });
   };
@@ -46,53 +43,53 @@ const Featured = () => {
   };
 
   return (
-    <div className="overflow-hidden my-8 ">
-      <div>
-        <h1 className="font-semibold text-[26px]">Featured Brands</h1>
-        <p className="font-normal text-base py-2">
-          Pick from our favourite brands
+    <div className="overflow-hidden my-8">
+      <header className="mb-4">
+        <h1 className="font-semibold text-2xl">Featured Brands</h1>
+        <p className="font-normal text-base text-gray-600">
+          Pick from our favorite brands
         </p>
-      </div>
+      </header>
 
       <div className="relative">
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-full p-2 shadow hover:shadow-md z-10"
           onClick={scrollLeft}
+          aria-label="Scroll Left"
         >
           &lt;
         </button>
+
         <div
-          className="flex gap-4 transition-transform duration-500 ease-out"
+          className="flex gap-4 overflow-hidden"
           ref={containerRef}
           onScroll={handleScroll}
-          style={{
-            transform: `translateX(-${scrollIndex * cardWidth}px)`,
-          }}
+          style={{ scrollSnapType: "x mandatory" }}
         >
-          {FeaturedData.map((categorie, index) => (
-            <div key={index} style={{ minWidth: `${cardWidth}px` }}>
-              <div className="rounded-xl border overflow-hidden shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105">
-                <div className="rounded-xl h-full w-full flex justify-center items-center">
-                  <Image
-                    src={categorie?.image}
-                    alt={categorie?.title}
-                    layout="responsive"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-              </div>
-              <div>
-                <p className="text-base font-normal text-center mt-2">
-                  {categorie.title}
-                </p>
-              </div>
+          {FeaturedData.map((category, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 rounded-xl border overflow-hidden shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
+              style={{ minWidth: `${cardWidth}px` }}
+            >
+              <Image
+                src={category?.image}
+                alt={category?.title}
+                layout="responsive"
+                width={100}
+                height={100}
+              />
+              <p className="text-center text-base font-normal mt-2">
+                {category.title}
+              </p>
             </div>
           ))}
         </div>
+
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-full p-2 shadow hover:shadow-md z-10"
           onClick={scrollRight}
+          aria-label="Scroll Right"
         >
           &gt;
         </button>

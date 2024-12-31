@@ -3,38 +3,36 @@ import React from "react";
 
 const Prescription = () => {
   return (
-    <div className="grid md:grid-cols-2 gap-4 my-8 h-60 w-full">
-      <div className="flex items-center bg-[#EEF4FF] ">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 w-full">
+      {/* Order with Prescription Section */}
+      <div className="flex items-center bg-[#EEF4FF] p-4 rounded-lg">
         <div className="flex gap-4 items-center">
+          <Image
+            src="https://i.ibb.co/HNxhH1N/rx-upload.jpg"
+            alt="Prescription Upload"
+            width={150}
+            height={150}
+            className="rounded-lg"
+          />
           <div>
-            <Image
-              src="https://i.ibb.co/HNxhH1N/rx-upload.jpg"
-              alt="Thyrocare Image"
-              layout="responsive"
-              width={150}
-              height={150}
-            />
-          </div>
-          <div>
-            <h1 className="font-semibold text-lg">Order with Prescription</h1>
-            <p className="font-normal text-sm py-4">
-              Upload prescription and we will deliver your medicines
+            <h1 className="text-lg font-semibold">Order with Prescription</h1>
+            <p className="text-sm text-gray-700 py-3">
+              Upload your prescription, and we will deliver your medicines.
             </p>
-            <button className="flex items-center gap-2 my-2  bg-black rounded px-6 py-2 text-sm font-bold uppercase  text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0">
+            <button className="flex items-center gap-2 bg-black text-white text-sm font-bold uppercase px-6 py-2 rounded-md hover:bg-teal-600 transition">
               <svg
                 width={24}
                 height={24}
-                data-slot="icon"
                 fill="none"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
                 ></path>
               </svg>
@@ -43,46 +41,24 @@ const Prescription = () => {
           </div>
         </div>
       </div>
-      <div className="  md:pt-14   ">
-        <h1 className="font-semibold text-sm pb-2">How to Work?</h1>
-        <div className="flex gap-3  ">
-          <div className="">
-            <div className="flex gap-2  pb-4">
-              <span className="py-1 px-3 rounded-lg bg-[#EEF4FF] font-semibold text-base">
-                1
+
+      {/* How to Work Section */}
+      <div className="bg-white p-4 rounded-lg">
+        <h1 className="text-lg font-semibold mb-4">How it Works?</h1>
+        <div className="space-y-4">
+          {[
+            "Upload a photo of your prescription",
+            "Add delivery address and place the order",
+            "We will call you to confirm the medicines",
+            "Now, sit back! Your medicines will be delivered to your doorstep",
+          ].map((step, index) => (
+            <div key={index} className="flex gap-3 items-start">
+              <span className="flex items-center justify-center w-8 h-8 bg-[#EEF4FF] text-base font-semibold rounded-lg">
+                {index + 1}
               </span>
-              <p className="font-normal text-sm">
-                Upload a photo of your prescription
-              </p>
+              <p className="text-sm text-gray-700">{step}</p>
             </div>
-            <div className="flex gap-2 items-center ">
-              <span className="py-1 px-3 rounded-lg bg-[#EEF4FF] font-semibold text-base">
-                2
-              </span>
-              <span className="font-normal text-sm">
-                Add delivery address and place the order
-              </span>
-            </div>
-          </div>
-          <div>
-            <div className="flex gap-2 items-center pb-4">
-              <span className="py-1 px-3 rounded-lg bg-[#EEF4FF] font-semibold text-base">
-                3
-              </span>
-              <span className="font-normal text-sm">
-                We will call you to confirm the medicines
-              </span>
-            </div>
-            <div className="flex gap-2 items-center ">
-              <span className="py-1 px-3 rounded-lg bg-[#EEF4FF] font-semibold text-base">
-                4
-              </span>
-              <p className="font-normal text-sm">
-                Now, sit back! Your medicines will get delivered at your
-                doorstep
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

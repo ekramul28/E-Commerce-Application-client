@@ -1,15 +1,12 @@
 import {
-  BaseQueryApi,
   BaseQueryFn,
   createApi,
-  DefinitionType,
   FetchArgs,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 import { logout, setUser } from "../fetures/Auth/authSlice";
-// import { logout, setUser } from "../features/Auth/authSlice";
 interface ErrorResponse {
   message: string;
   status?: number;
@@ -17,8 +14,8 @@ interface ErrorResponse {
 }
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "http://localhost:5000/api/v1",
-  baseUrl: "https://e-commers-server-2.vercel.app/api/v1",
+  baseUrl: "http://localhost:5000/api/v1",
+  // baseUrl: "https://e-commers-server-2.vercel.app/api/v1",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth?.token;
     if (token) {

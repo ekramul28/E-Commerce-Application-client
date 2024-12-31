@@ -23,4 +23,16 @@ export const chooseData = [
     title: "19000+",
     subTitle: "Pin codes serviced last  3 months",
   },
+  {
+    image:
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723343670/pincodeServed_sywkhw.jpg",
+    title: "99000+",
+    subTitle: "Unique items sold last  3 months",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1723343670/family_dthq2b.jpg",
+    title: "32 Million+",
+    subTitle: "Registered users as of Mar 31,2022",
+  },
 ];

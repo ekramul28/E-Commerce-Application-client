@@ -1,35 +1,35 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa"; // React icons
+import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
+import { ICategory } from "@/assets/AllType";
+import Image from "next/image";
 
 const NavLinkBar = () => {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const { data: categoryData } = useGetCategoryQuery(undefined);
+
   const pages = [
     { nav: "Home", route: "/" },
     { nav: "Product", route: "/product" },
+    { nav: "Shops", route: "/shoppage" },
+    { nav: "ShopReport", route: "/healthcare" },
     {
-      nav: "ShopReport",
-      route: "/healthcare",
-    },
-    {
-      nav: "Shops",
-      route: "/shoppage",
-    },
-    {
-      nav: "Details",
+      nav: "Category",
       route: "",
-      megaMenu: [
-        { label: "Category 1", links: [{ name: "Link 1", route: "/link1" }] },
-        {
-          label: "Category 2",
-          links: [
-            { name: "Link 2", route: "/link2" },
-            { name: "Link 3", route: "/link3" },
-          ],
-        },
-      ],
+      megaMenu: categoryData?.data?.map((category: ICategory) => ({
+        label: category.name,
+        icon: category.image, // Image URL for the category
+        links: [
+          {
+            name: `${category.name}`,
+            route: `/products?categoryId=${category.id}`,
+          },
+        ],
+      })),
     },
     { nav: "Blogs", route: "/healthblogs" },
   ];
@@ -50,23 +50,39 @@ const NavLinkBar = () => {
               onMouseLeave={() => page.megaMenu && setOpenMenu(null)}
             >
               <button
-                className={`px-4 py-2 ${
+                className={`px-4 py-2 flex items-center gap-2 ${
                   pathname === page.route ? "text-blue-500" : "text-black"
                 }`}
                 onClick={() => handleNavigation(page.route)}
               >
                 {page.nav}
+                {page.nav === "Category" && (
+                  <span className="text-lg">
+                    {openMenu === "Category" ? <FaCaretUp /> : <FaCaretDown />}
+                  </span>
+                )}
               </button>
               {page.megaMenu && openMenu === page.nav && (
-                <div className="absolute left-0 top-6 mt-2 w-72 bg-white shadow-lg p-4 grid grid-cols-2 gap-4 z-10 rounded-lg border-t-2">
-                  {page.megaMenu.map((category) => (
-                    <div key={category.label}>
-                      <h3 className="font-semibold mb-2">{category.label}</h3>
+                <div className="absolute left-0 top-6 mt-2 w-[400px] bg-white shadow-lg p-4 grid grid-cols-2 gap-4 z-50 rounded-lg border-t-2">
+                  {page.megaMenu.map((category: any) => (
+                    <div
+                      key={category.label}
+                      className="flex items-center gap-2"
+                    >
+                      {/* Category Image */}
+                      <Image
+                        height={20}
+                        width={20}
+                        src={category.icon}
+                        alt={`${category.label} Icon`}
+                        className="w-10 h-10 object-cover rounded-md"
+                      />
+                      {/* Category Links */}
                       <ul>
-                        {category.links.map((link) => (
+                        {category.links.map((link: any) => (
                           <li key={link.name}>
                             <button
-                              className="text-gray-600 hover:text-blue-500"
+                              className="font-semibold mb-2 hover:text-blue-500 flex items-center gap-2"
                               onClick={() => handleNavigation(link.route)}
                             >
                               {link.name}
