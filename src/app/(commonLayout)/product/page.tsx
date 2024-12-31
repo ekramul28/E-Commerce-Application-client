@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TMeta, TProduct } from "@/assets/AllType";
 import LoadingSpinner from "@/components/Loding/Loding";
 import Container from "@/components/Container/Container";
 import MedicineCard from "./_components/MedicineCard";
 import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
-import InfiniteScroll from "react-infinite-scroll-component";
 import GoTop from "@/components/GoTop/GoTop";
 import CustomPagination from "@/components/Pagination/Pagination";
 
@@ -87,7 +86,8 @@ const Medicine = () => {
   return (
     <Container>
       <div className="mt-36 md:flex">
-        <div className="md:w-1/4 p-4 ">
+        {/* search filter section */}
+        <div className="md:w-1/4 p-4 h-screen   ">
           {/* Search Bar */}
           <div className="mb-4">
             <form onSubmit={(e) => handleSearch(e)}>
@@ -168,7 +168,7 @@ const Medicine = () => {
             </div>
           </div>
         </div>
-
+        {/* product section  */}
         <div className="lg:w-3/4">
           {/* Product Cards */}
 

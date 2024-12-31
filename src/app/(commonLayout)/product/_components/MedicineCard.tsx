@@ -6,77 +6,80 @@ import {
   useGetIsFollowQuery,
   useUnFollowMutation,
 } from "@/redux/fetures/follow&unFollow/followApi";
-
 import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
+
 interface MedicineCardProps {
   product: TProduct;
 }
+
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
-  const { data: ProfileData } = useGetMyProfileQuery(undefined);
-  const customerId = ProfileData?.data?.id;
-  console.log(product);
+  const { data: profileData, isLoading: isProfileLoading } =
+    useGetMyProfileQuery(undefined);
+  const customerId = profileData?.data?.id;
 
-  console.log(product?.shop?.vendorId);
-  const getFollowData = {
-    shopId: product.shop.id,
-    customerId: customerId,
-  };
+  const followData = { shopId: product.shop.id, customerId };
+  const { data: isFollowingData, isLoading: isFollowLoading } =
+    useGetIsFollowQuery(followData);
+  const follow = isFollowingData?.data?.isFollowing;
 
-  const { data: followData, isLoading: isFollowLoading } =
-    useGetIsFollowQuery(getFollowData);
-  const follow = followData?.data?.isFollowing;
   const [addCart] = useAddCartMutation();
   const user = useAppSelector((state: RootState) => state.auth.user);
-  const handleAddToCart = async (id: string) => {
-    const data = {
-      productId: id,
-      quantity: 1,
-      email: user?.email,
-    };
 
+  const [followShop] = useFollowMutation();
+  const [unFollowShop] = useUnFollowMutation();
+
+  const handleAddToCart = async (id: string) => {
+    const data = { productId: id, quantity: 1, email: user?.email };
     try {
       const result = await addCart(data).unwrap();
       if (result?.success) {
-        toast.success("Product Add Successfully");
+        toast.success("Product Added Successfully");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Error adding product to cart");
     }
   };
 
-  const [Follow] = useFollowMutation();
-  const [UnFollow] = useUnFollowMutation();
-
-  const handelFollow = async () => {
-    const result = await Follow(getFollowData).unwrap();
-    if (result.success) {
-      toast.success("shop follow successfully");
-    }
-  };
-  const handelUnFollow = async () => {
-    const result = await UnFollow(getFollowData).unwrap();
-    if (result.success) {
-      toast.error("shop unFollow successfully");
+  const handleFollow = async () => {
+    try {
+      const result = await followShop(followData).unwrap();
+      if (result.success) {
+        toast.success("Shop followed successfully");
+      }
+    } catch (error) {
+      toast.error("Error following shop");
     }
   };
 
-  if (!ProfileData || isFollowLoading) {
-    <div>Loading...</div>;
+  const handleUnFollow = async () => {
+    try {
+      const result = await unFollowShop(followData).unwrap();
+      if (result.success) {
+        toast.error("Shop unfollowed successfully");
+      }
+    } catch (error) {
+      toast.error("Error unfollowing shop");
+    }
+  };
+
+  if (isProfileLoading || isFollowLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="mt-4">
       <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[550px]">
-        <div className="flex gap-1  items-center justify-between p-4">
-          <div className="flex gap-2  items-center">
+        {/* Header */}
+        <div className="flex gap-1 items-center justify-between p-4">
+          <div className="flex gap-2 items-center">
             <Link href={`shoppage/${product?.shop?.vendorId}`}>
               <Image
-                alt=""
+                alt={product?.shop?.name}
                 height={40}
                 width={40}
                 src={product?.shop?.logo}
@@ -84,43 +87,41 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
               />
             </Link>
             <Link href={`shoppage/${product?.shop?.vendorId}`}>
-              <h1 className="font-bold text-sm cursor-pointer hover:underline ">
+              <h1 className="font-bold text-sm cursor-pointer hover:underline">
                 {product?.shop?.name}
               </h1>
             </Link>
           </div>
+
+          {/* Follow/Unfollow Button */}
           <div>
-            {follow ? (
-              <Button
-                onClick={handelUnFollow}
-                className=" p-2 font-semibold bg-red-500 text-white "
-              >
-                UnFollow
-              </Button>
-            ) : (
-              <Button
-                onClick={handelFollow}
-                className=" p-2 font-semibold bg-blue-500 text-white "
-              >
-                Follow
-              </Button>
-            )}
+            <Button
+              onClick={follow ? handleUnFollow : handleFollow}
+              className={`p-2 font-semibold ${
+                follow ? "bg-red-500" : "bg-blue-500"
+              } text-white`}
+            >
+              {follow ? "UnFollow" : "Follow"}
+            </Button>
           </div>
         </div>
+
+        {/* Product Image */}
         <div className="flex justify-center items-center">
           <Image
-            alt=""
+            alt={product?.name}
             height={100}
             width={100}
             src={product?.images[0]}
-            className="w-full h-[200px] object-cover p-4"
+            className="w-full h-[200px]  p-4"
           />
         </div>
 
-        <div className="p-4 sm:p-6 ">
+        {/* Product Details */}
+        <div className="p-4 sm:p-6">
           <p className="text-lg font-bold text-gray-900">
             {product?.name?.length > 50
-              ? `${product.name.slice(0, 50)}...`
+              ? `${product.name.slice(0, 30)}...`
               : product.name}
           </p>
 
@@ -132,39 +133,39 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
             <span
               className={`${
                 product.offer ? "line-through text-gray-500" : ""
-              }text-red-500`}
+              } text-red-500`}
             >
               ( Discount: {product?.discount})%
             </span>
           </p>
+
           <p className="mt-3 font-medium text-red-500">
             {product?.offerDiscount
               ? `OfferDiscount: ${product?.offerDiscount}%`
               : ""}
           </p>
 
-          <div>
-            {product?.offer ? (
-              <div className="font-bold">
-                <dt className="inline">OfferPrice:</dt>
-                <dd className="inline ">
-                  {(Number(product?.offerDiscount) * Number(product?.price)) /
-                    100 -
-                    product?.price}
-                </dd>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+          {/* Offer Price */}
+          {product?.offer && (
+            <div className="font-bold">
+              <dt className="inline">Offer Price:</dt>
+              <dd className="inline">
+                {(Number(product?.offerDiscount) * Number(product?.price)) /
+                  100 -
+                  product?.price}
+              </dd>
+            </div>
+          )}
+
+          {/* Action Buttons */}
           <div className="flex justify-between mt-2">
             <div>
               <Link href={`/product/${product.id}`}>
-                <Button className="text-white bg-blue-500 flex p-2 font-semibold">
-                  See Details
+                <Button className="text-white bg-blue-500 flex p-2 gap-2 font-semibold">
+                  Details
                   <span
                     aria-hidden="true"
-                    className="block transition-all group-hover:ms-0.5 rtl:rotate-180 font-semibold"
+                    className="block transition-all group-hover:ms-0.5 rtl:rotate-180 font-semibold "
                   >
                     &rarr;
                   </span>
@@ -176,7 +177,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
                 onClick={() => handleAddToCart(product.id)}
                 className="p-2 text-white bg-blue-500 flex gap-2 font-semibold"
               >
-                Add To Cart
+                Add Cart
                 <svg
                   className="md:h-6 md:w-6 h-4 w-4"
                   data-slot="icon"

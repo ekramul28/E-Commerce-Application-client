@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-key */
 "use client";
+import { TMeta } from "@/assets/AllType";
 import Container from "@/components/Container/Container";
 import LoadingSpinner from "@/components/Loding/Loding";
+import CustomPagination from "@/components/Pagination/Pagination";
 import { useGetAllShopQuery } from "@/redux/fetures/Shop/shopApi";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,21 +13,28 @@ const AllShop = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("new-to-old");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const queryParams = [
     { name: "searchTerm", value: searchTerm },
     { name: "filter", value: filterStatus },
   ];
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   const { data, error, isLoading } = useGetAllShopQuery(queryParams);
   const shops = data?.data?.data || [];
-
+  const meta: TMeta = data?.data?.meta;
+  const totalPages = meta?.totalPage;
   if (error) return <div>Error loading shops</div>;
 
   return (
     <Container>
       {isLoading ? (
-        <LoadingSpinner></LoadingSpinner>
+        <div className="mt-48">
+          <LoadingSpinner size={200}></LoadingSpinner>
+        </div>
       ) : (
         <div className="container mx-auto px-4 mt-48">
           {/* Search and Filter Section */}
@@ -106,6 +115,13 @@ const AllShop = () => {
                 </div>
               </Link>
             ))}
+          </div>
+          <div className="flex justify-center items-center my-7">
+            <CustomPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       )}
