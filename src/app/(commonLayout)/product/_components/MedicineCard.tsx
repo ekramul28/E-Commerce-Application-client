@@ -12,12 +12,15 @@ import { RootState } from "@/redux/store";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { FaCartPlus } from "react-icons/fa";
 
 interface MedicineCardProps {
   product: TProduct;
 }
 
 const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
+  console.log(product);
+
   const { data: profileData, isLoading: isProfileLoading } =
     useGetMyProfileQuery(undefined);
   const customerId = profileData?.data?.id;
@@ -73,11 +76,11 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
 
   return (
     <div className="mt-4">
-      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full h-[550px]">
+      <article className="overflow-hidden rounded-lg border-2 border-gray-100 bg-white shadow-sm w-full md:h-[560px] lg:h-[520px]">
         {/* Header */}
         <div className="flex gap-1 items-center justify-between p-4">
           <div className="flex gap-2 items-center">
-            <Link href={`shoppage/${product?.shop?.vendorId}`}>
+            <Link href={`/shoppage/${product?.shop?.vendorId}`}>
               <Image
                 alt={product?.shop?.name}
                 height={40}
@@ -86,7 +89,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
                 className="w-[50px] h-[50px] rounded-full object-cover cursor-pointer"
               />
             </Link>
-            <Link href={`shoppage/${product?.shop?.vendorId}`}>
+            <Link href={`/shoppage/${product?.shop?.vendorId}`}>
               <h1 className="font-bold text-sm cursor-pointer hover:underline">
                 {product?.shop?.name}
               </h1>
@@ -110,15 +113,15 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
         <div className="flex justify-center items-center">
           <Image
             alt={product?.name}
-            height={100}
-            width={100}
+            height={500}
+            width={500}
             src={product?.images[0]}
-            className="w-full h-[200px]  p-4"
+            className="w-full h-[200px] p-4"
           />
         </div>
 
         {/* Product Details */}
-        <div className="p-4 sm:p-6">
+        <div className="p-2">
           <p className="text-lg font-bold text-gray-900">
             {product?.name?.length > 50
               ? `${product.name.slice(0, 30)}...`
@@ -135,7 +138,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
                 product.offer ? "line-through text-gray-500" : ""
               } text-red-500`}
             >
-              ( Discount: {product?.discount})%
+              ( Discount: {product?.discount}%)
             </span>
           </p>
 
@@ -158,42 +161,26 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ product }) => {
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-between mt-2">
-            <div>
+          <div className="flex justify-center mt-2 items-center">
+            <div className="flex-1">
               <Link href={`/product/${product.id}`}>
-                <Button className="text-white bg-blue-500 flex p-2 gap-2 font-semibold">
+                <Button className="text-white bg-blue-500 flex p-2 gap-2 font-semibold justify-center">
                   Details
                   <span
                     aria-hidden="true"
-                    className="block transition-all group-hover:ms-0.5 rtl:rotate-180 font-semibold "
+                    className="block transition-all group-hover:ms-0.5 rtl:rotate-180 font-semibold"
                   >
                     &rarr;
                   </span>
                 </Button>
               </Link>
             </div>
-            <div>
+            <div className="flex-1 ">
               <Button
                 onClick={() => handleAddToCart(product.id)}
-                className="p-2 text-white bg-blue-500 flex gap-2 font-semibold"
+                className="p-2 text-white bg-blue-500   flex gap-2 font-semibold justify-center"
               >
                 Add Cart
-                <svg
-                  className="md:h-6 md:w-6 h-4 w-4"
-                  data-slot="icon"
-                  fill="none"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                  ></path>
-                </svg>
               </Button>
             </div>
           </div>

@@ -10,6 +10,7 @@ import { useGetAllProductIdQuery } from "@/redux/fetures/Product/productApi";
 import { useGetCategoryQuery } from "@/redux/fetures/Category/categoryApi";
 import GoTop from "@/components/GoTop/GoTop";
 import CustomPagination from "@/components/Pagination/Pagination";
+import EcommerceCard from "./_components/ProductCard";
 
 const Medicine = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -173,12 +174,12 @@ const Medicine = () => {
           {/* Product Cards */}
 
           <div>
-            <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0 min-h-screen ">
+            <div className="grid md:grid-cols-3 gap-2 mx-4 md:mx-0  ">
               {isLoading ? (
                 <LoadingSpinner></LoadingSpinner>
               ) : (
-                products?.map((product: TProduct) => (
-                  <MedicineCard key={product.id} product={product} />
+                products?.map((product: any) => (
+                  <EcommerceCard key={product.id} product={product} />
                 ))
               )}
             </div>
