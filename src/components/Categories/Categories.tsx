@@ -2,6 +2,7 @@
 import { categories } from "@/assets/categoriesData";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import React Icons
 
 const Categories = () => {
   const [scrollIndex, setScrollIndex] = useState(0);
@@ -22,14 +23,16 @@ const Categories = () => {
       <h1 className="font-semibold text-[26px]">Shop by Categories</h1>
 
       <div className="relative">
+        {/* Left Arrow Button */}
         <button
           className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black text-white rounded-full p-2"
           onClick={scrollLeft}
         >
-          &lt;
+          <FaArrowLeft size={20} /> {/* Left Arrow Icon */}
         </button>
+
         <div
-          className="flex gap-4  transition-transform duration-500 ease-out "
+          className="flex gap-4  transition-transform duration-500 ease-out"
           style={{
             transform: `translateX(-${scrollIndex * cardWidth}px)`,
           }}
@@ -37,7 +40,7 @@ const Categories = () => {
           {categories.map((categorie, index) => (
             <div key={index} style={{ minWidth: `${cardWidth}px` }}>
               <div className="rounded-xl border overflow-hidden shadow-lg hover:shadow-2xl px-2 transition-transform transform hover:scale-105 mt-2 md:mt-0">
-                <div className="rounded-xl h-60  w-[220px] flex justify-center items-center">
+                <div className="rounded-xl h-60 w-[220px] flex justify-center items-center">
                   <Image
                     src={categorie?.image}
                     alt={categorie?.title}
@@ -55,11 +58,13 @@ const Categories = () => {
             </div>
           ))}
         </div>
+
+        {/* Right Arrow Button */}
         <button
           className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black text-white rounded-full p-2"
           onClick={scrollRight}
         >
-          &gt;
+          <FaArrowRight size={20} /> {/* Right Arrow Icon */}
         </button>
       </div>
     </div>

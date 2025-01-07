@@ -5,8 +5,8 @@ import Footer from "../Shared/Footer/Footer";
 const Container = ({ children }: { children: ReactNode }) => {
   return (
     <div>
-      <Navbar />
-      <div className="max-w-screen-xl mx-auto">
+      <div className="container mx-auto">
+        <Navbar />
         {children}
         <Footer />
       </div>

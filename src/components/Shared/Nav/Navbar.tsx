@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { useCartProductQuery } from "@/redux/fetures/cart/cartApi";
 import { logout } from "@/redux/fetures/Auth/authSlice";
+import Container from "@/components/Container/Container";
 
 const Navbar = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
@@ -32,7 +33,9 @@ const Navbar = () => {
     // Add logic to handle search functionality
   };
   return (
-    <div className={`fixed top-0 left-0 w-full z-20  bg-white shadow-lg `}>
+    <div
+      className={`fixed top-0 left-0 mx-auto w-full z-20   bg-white shadow-lg `}
+    >
       <div className=" h-12 md:h-20 flex justify-center items-center ">
         <div className="container mx-auto  py-2 flex justify-between items-center">
           <div className="text-2xl font-bold text-black flex items-center">
@@ -40,9 +43,9 @@ const Navbar = () => {
               <Image
                 src="https://i.ibb.co/xzg7M5N/Thyrocare.webp"
                 alt="Thyrocare Image"
-                layout="responsive"
-                width={500}
-                height={300}
+                width={100} // Set width to 50px
+                height={200} // Set height to 50px
+                className="h-full w-32 object-cover" // Ensures the image is 50x50px and cropped correctly
               />
             </div>
             <div className="hidden lg:block  border-l-2 pl-3">
@@ -106,7 +109,7 @@ const Navbar = () => {
 
                   <button
                     type="submit"
-                    className="mt-1 w-full bg-black rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0"
+                    className="mt-1 w-full bg-orange-500 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0"
                   >
                     Search
                   </button>
@@ -148,7 +151,6 @@ const Navbar = () => {
                 </Link>
               )}
             </div>
-
             {user?.role == "CUSTOMER" && (
               <div className="flex gap-1">
                 <div>

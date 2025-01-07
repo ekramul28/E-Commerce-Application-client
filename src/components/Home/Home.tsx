@@ -1,16 +1,22 @@
 import React from "react";
-import Banner from "../Bannar/Bannar";
 import OfferCategories from "../OfferCategories/OfferCategories";
 import HealthConcern from "../HealthConcern/HealthConcern";
 import Prescription from "../Prescription/Prescription";
 import Categories from "../Categories/Categories";
 import Featured from "../Featured/Featured";
 import WhyChoose from "../WhyChoose/WhyChoose";
+import BannerSection from "../Bannar/SearchField";
+import DynamicCategory from "../Bannar/Bannar";
+import TopLevelBanner from "../Bannar/Banner2";
+import TrendingNow from "../TrendingNow/TrendingNow";
 
 const HomeCom = () => {
   return (
-    <div>
-      <Banner />
+    <div className="mt-40">
+      <TopLevelBanner />
+      {/* <BannerSection /> */}
+      <DynamicCategory />
+      <TrendingNow />
       <OfferCategories />
       <HealthConcern />
       <Prescription />

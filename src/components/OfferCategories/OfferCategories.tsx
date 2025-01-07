@@ -2,6 +2,7 @@
 import { offer } from "@/assets/OfferData";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import React Icons
 
 const OfferCategories = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,10 +30,10 @@ const OfferCategories = () => {
   };
 
   return (
-    <div className="relative w-full  mx-auto overflow-hidden my-8">
+    <div className="relative w-full mx-auto overflow-hidden my-8">
       <div className="overflow-hidden">
         <div
-          className="flex gap-3  transition-transform duration-500 ease-out"
+          className="flex gap-3 transition-transform duration-500 ease-out"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
@@ -40,7 +41,7 @@ const OfferCategories = () => {
           {offer.map((data, index) => (
             <div
               key={index}
-              className="md:w-[700px] w-full h-full flex-shrink-0"
+              className="md:w-[700px] w-full h-full flex-shrink-0 relative"
             >
               <Image
                 src={data.image}
@@ -57,15 +58,15 @@ const OfferCategories = () => {
       {/* Left and Right Navigation Buttons */}
       <button
         onClick={goToPreviousSlide}
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 p-2 bg-black text-white rounded-full"
+        className="absolute top-1/2 left-0 transform -translate-y-1/2 p-4 bg-black text-white rounded-full shadow-lg hover:bg-orange-500 hover:scale-110 transition-all duration-300 ease-in-out"
       >
-        &lt;
+        <FaArrowLeft className="text-2xl" />
       </button>
       <button
         onClick={goToNextSlide}
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 p-2 bg-black text-white rounded-full"
+        className="absolute top-1/2 right-0 transform -translate-y-1/2 p-4 bg-black text-white rounded-full shadow-lg hover:bg-orange-500 hover:scale-110 transition-all duration-300 ease-in-out"
       >
-        &gt;
+        <FaArrowRight className="text-2xl" />
       </button>
     </div>
   );

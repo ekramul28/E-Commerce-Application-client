@@ -2,6 +2,7 @@
 import { FeaturedData } from "@/assets/FeaturedData";
 import Image from "next/image";
 import React, { useState, useRef } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import React Icons
 
 const Featured = () => {
   const [scrollIndex, setScrollIndex] = useState(0);
@@ -52,12 +53,13 @@ const Featured = () => {
       </header>
 
       <div className="relative">
+        {/* Left Scroll Button */}
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-full p-2 shadow hover:shadow-md z-10"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-full p-3 shadow-lg hover:shadow-2xl z-10 flex items-center justify-center"
           onClick={scrollLeft}
           aria-label="Scroll Left"
         >
-          &lt;
+          <FaArrowLeft size={24} className="text-gray-600" />
         </button>
 
         <div
@@ -86,12 +88,13 @@ const Featured = () => {
           ))}
         </div>
 
+        {/* Right Scroll Button */}
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-full p-2 shadow hover:shadow-md z-10"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border rounded-full p-3 shadow-lg hover:shadow-2xl z-10 flex items-center justify-center"
           onClick={scrollRight}
           aria-label="Scroll Right"
         >
-          &gt;
+          <FaArrowRight size={24} className="text-gray-600" />
         </button>
       </div>
     </div>

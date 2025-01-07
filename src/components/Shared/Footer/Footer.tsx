@@ -70,7 +70,7 @@ const Footer = () => {
                         className="w-full h-10 rounded-full bg-white md:p-2 md:pl-10 border-none focus:border-transparent focus:ring-transparent sm:text-sm"
                       />
                     </div>
-                    <button className=" w-full bg-black rounded-full  md:px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0">
+                    <button className=" w-full bg-orange-500 rounded-full  md:px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-none hover:bg-teal-600 sm:mt-0 sm:w-auto sm:shrink-0">
                       Search
                     </button>
                   </div>
