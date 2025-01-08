@@ -67,7 +67,11 @@ const TopLevelBanner = () => {
               Explore the latest in electronics – laptops, phones, and more!
             </p>
             <button
-              onClick={() => router.push("/category/electronics")}
+              onClick={() =>
+                router.push(
+                  "/products?categoryId=9169849a-d552-4681-b0be-307c92a624f1"
+                )
+              }
               className="bg-orange-500 text-white py-2 px-4 rounded-xl hover:bg-orange-600 transition-all duration-300 shadow-md"
             >
               Shop Electronics
@@ -89,7 +93,11 @@ const TopLevelBanner = () => {
               Browse our latest collection of stylish clothing for all seasons!
             </p>
             <button
-              onClick={() => router.push("/category/clothing")}
+              onClick={() =>
+                router.push(
+                  "/products?categoryId=946d8b9a-97b5-46e7-b1cf-70c6eb5b01e6"
+                )
+              }
               className="bg-orange-500 text-white py-2 px-4 rounded-xl hover:bg-orange-600 transition-all duration-300 shadow-md"
             >
               Shop Clothing
@@ -116,7 +124,7 @@ const TopLevelBanner = () => {
               and more!
             </p>
             <button
-              onClick={() => router.push("/all-products")}
+              onClick={() => router.push("/product")}
               className="bg-orange-500 text-white py-2 px-4 rounded-xl hover:bg-orange-600 transition-all duration-300 shadow-md"
             >
               Shop Now
@@ -133,7 +141,7 @@ const TopLevelBanner = () => {
               styles.
             </p>
             <button
-              onClick={() => router.push("/new-arrivals")}
+              onClick={() => router.push("/product")}
               className="bg-orange-500 text-white py-2 px-4 rounded-xl  transition-all duration-300 shadow-md"
             >
               Explore New Arrivals

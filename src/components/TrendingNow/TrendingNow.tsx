@@ -13,30 +13,35 @@ const trendingProducts: Product[] = [
   {
     id: "1",
     name: "Wireless Headphones",
-    image: "/path-to-image1.jpg", // Replace with your product image path
+    image:
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1736318205/images_3_rjpukw.jpg", // Replace with your product image path
     price: 89.99,
     url: "/product/wireless-headphones",
   },
   {
     id: "2",
     name: "Smartwatch",
-    image: "/path-to-image2.jpg", // Replace with your product image path
+    image:
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1736317345/tv-screen-wooden-table-front-lake-with-sunset_wxwifm.jpg", // Replace with your product image path
     price: 199.99,
     url: "/product/smartwatch",
+  },
+
+  {
+    id: "4",
+    name: "Bluetooth Speaker",
+    image:
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1736317577/still-life-tech-device_oha4wo.jpg", // Replace with your product image path
+    price: 59.99,
+    url: "/product/bluetooth-speaker",
   },
   {
     id: "3",
     name: "4K Ultra HD TV",
-    image: "/path-to-image3.jpg", // Replace with your product image path
+    image:
+      "https://res.cloudinary.com/dvtdneocc/image/upload/v1736317812/c0f32290-4766-11ee-80cd-4a0290348580_urh9uf.webp", // Replace with your product image path
     price: 499.99,
     url: "/product/4k-ultra-hd-tv",
-  },
-  {
-    id: "4",
-    name: "Bluetooth Speaker",
-    image: "/path-to-image4.jpg", // Replace with your product image path
-    price: 59.99,
-    url: "/product/bluetooth-speaker",
   },
 ];
 
@@ -51,8 +56,8 @@ const TrendingNow = () => {
             className="bg-white rounded-lg shadow-md overflow-hidden"
           >
             <Image
-              height={200}
-              width={200}
+              height={700}
+              width={700}
               src={product.image}
               alt={product.name}
               className="w-full h-48 object-cover"

@@ -4,7 +4,7 @@ import React from "react";
 
 const WhyChoose = () => {
   return (
-    <section className="bg-[#F8F9FF] py-10 px-6">
+    <section className=" py-10 px-6">
       <header className="text-center mb-6">
         <h1 className="text-[26px] font-semibold">Why Choose Us?</h1>
       </header>
@@ -12,7 +12,7 @@ const WhyChoose = () => {
         {chooseData.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col items-center text-center bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            className="flex flex-col items-center text-center bg-white p-4 rounded-lg shadow-xl hover:shadow-lg transition-shadow"
           >
             <Image
               src={item?.image}

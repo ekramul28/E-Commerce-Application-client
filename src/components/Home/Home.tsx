@@ -9,6 +9,7 @@ import BannerSection from "../Bannar/SearchField";
 import DynamicCategory from "../Bannar/Bannar";
 import TopLevelBanner from "../Bannar/Banner2";
 import TrendingNow from "../TrendingNow/TrendingNow";
+import CustomerTestimonials from "../CustomerReview/CustomerReview";
 
 const HomeCom = () => {
   return (
@@ -20,7 +21,8 @@ const HomeCom = () => {
       <OfferCategories />
       <HealthConcern />
       <Prescription />
-      <Categories />
+      <CustomerTestimonials />
+      {/* <Categories /> */}
       <Featured />
       <WhyChoose />
     </div>
