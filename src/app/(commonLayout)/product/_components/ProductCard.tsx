@@ -16,6 +16,7 @@ import { useAddCartMutation } from "@/redux/fetures/cart/cartApi";
 import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import Link from "next/link";
 import { Rating } from "../../Rating/Rating";
+import { usePathname, useRouter } from "next/navigation";
 
 interface ProductDetails {
   id: string;
@@ -53,7 +54,7 @@ const EcommerceCard = ({ product }: { product: ProductDetails }) => {
 
   const [addCart, { isLoading: isAddingToCart }] = useAddCartMutation();
   const user = useAppSelector((state: RootState) => state.auth.user);
-
+  const router = useRouter();
   // Fetching profile data
   const { data: profileData, isLoading: isProfileLoading } =
     useGetMyProfileQuery(undefined);
@@ -72,6 +73,11 @@ const EcommerceCard = ({ product }: { product: ProductDetails }) => {
   const handleAddToCart = async () => {
     if (availableQuantity === 0) {
       toast.error("This product is out of stock.");
+      return;
+    }
+    if (!user?.email) {
+      toast.error("login first");
+      router.push("/login");
       return;
     }
 
@@ -131,10 +137,16 @@ const EcommerceCard = ({ product }: { product: ProductDetails }) => {
   }
   const randomRatingValue = Math.floor(Math.random() * 5) + 2;
 
+  const pathname = usePathname(); // To get the current active route
+
   return (
     <div className="max-w-sm rounded-lg shadow-lg overflow-hidden bg-white">
       {/* Shop Info at the top */}
-      <div className="flex items-center justify-between gap-3 p-4">
+      <div
+        className={`flex ${
+          pathname === "/" ? "hidden" : "block"
+        } items-center justify-between gap-3 p-4`}
+      >
         <div className="flex items-center">
           <Link href={`/shoppage/${shop?.vendorId}`}>
             <Image
