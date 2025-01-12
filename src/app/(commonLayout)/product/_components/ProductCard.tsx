@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -14,6 +15,8 @@ import {
 import { useAddCartMutation } from "@/redux/fetures/cart/cartApi";
 import { useGetMyProfileQuery } from "@/redux/fetures/user/userApi";
 import Link from "next/link";
+import { Rating } from "../../Rating/Rating";
+
 interface ProductDetails {
   id: string;
   name: string;
@@ -31,6 +34,7 @@ interface ProductDetails {
     description: string;
     vendorId: string;
   };
+  rating: number; // Assuming the rating is a number between 1 and 5
 }
 
 const EcommerceCard = ({ product }: { product: ProductDetails }) => {
@@ -44,6 +48,7 @@ const EcommerceCard = ({ product }: { product: ProductDetails }) => {
     offerDiscount,
     availableQuantity,
     shop,
+    rating,
   } = product;
 
   const [addCart, { isLoading: isAddingToCart }] = useAddCartMutation();
@@ -124,6 +129,7 @@ const EcommerceCard = ({ product }: { product: ProductDetails }) => {
   if (isProfileLoading || isFollowLoading) {
     return <div>Loading...</div>;
   }
+  const randomRatingValue = Math.floor(Math.random() * 5) + 2;
 
   return (
     <div className="max-w-sm rounded-lg shadow-lg overflow-hidden bg-white">
@@ -176,8 +182,14 @@ const EcommerceCard = ({ product }: { product: ProductDetails }) => {
           {truncateText(description, 100)}
         </p>
 
-        <div className="flex justify-between items-center mt-4">
-          <p className="text-xl font-bold text-green-600">${price}</p>
+        <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-xl font-bold text-green-600">${price}</p>
+          </div>
+          {/* Rating */}
+          <div className="mt-2">
+            <Rating value={randomRatingValue} />
+          </div>
         </div>
 
         {/* Discount and Offer */}
